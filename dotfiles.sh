@@ -1,13 +1,11 @@
 #!/bin/bash
 
-# Define an associative array mapping repository paths to system paths
 declare -A PATHS=(
     ["./nvim"]="$HOME/.config/nvim"
     ["./tmux/.tmux.conf"]="$HOME/.tmux.conf"
     ["./starship/starship.toml"]="$HOME/.config/starship.toml"
 )
 
-# Generic function to copy files
 sync_files() {
     local direction=$1  # "backup" or "restore"
     echo "Starting $direction operation..."
@@ -32,7 +30,6 @@ sync_files() {
     echo "$direction operation complete."
 }
 
-# Main logic
 if [ "$1" == "backup" ]; then
     sync_files "backup"
 elif [ "$1" == "restore" ]; then
