@@ -4,6 +4,9 @@ declare -A PATHS=(
     ["./nvim"]="$HOME/.config/nvim"
     ["./tmux/.tmux.conf"]="$HOME/.tmux.conf"
     ["./starship/starship.toml"]="$HOME/.config/starship.toml"
+    ["./bashrc/.bashrc"]="$HOME/.bashrc"
+    ["./bin/cb"]="$HOME/bin/cb"
+    ["./bin/corp"]="$HOME/bin/corp"
 )
 
 sync_files() {

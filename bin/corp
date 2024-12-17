@@ -1,0 +1,56 @@
+#!/bin/bash
+
+ap() {
+    export http_proxy="http://aproxy.corproot.net:8080/"
+    export https_proxy="http://aproxy.corproot.net:8080/"
+    export no_proxy="localhost,127.0.0.1/32,**.swisscom.com,.swisscom.ch,.corproot.net,.sharedtcs.net,*.docker.internal,172.17.178.5"
+    echo "Proxy enabled:"
+    echo "  HTTP Proxy: $http_proxy"
+    echo "  HTTPS Proxy: $https_proxy"
+    echo "  No Proxy: $no_proxy"
+}
+
+dp() {
+    unset http_proxy
+    unset https_proxy
+    unset no_proxy
+    echo "Proxy disabled."
+}
+
+
+FUNCTIONS=(ap dp help)
+
+help() {
+    echo "Usage: $0 <function_name>"
+    echo
+    echo "Available functions:"
+    for func in "${FUNCTIONS[@]}"; do
+        echo "  $func"
+    done
+    echo
+    echo "Example:"
+    echo "  $0 ap   # Enables the proxy"
+    echo "  $0 dp   # Disables the proxy"
+}
+
+function_exists() {
+    for func in "${FUNCTIONS[@]}"; do
+        if [[ "$func" == "$1" ]]; then
+            return 0  # Success: function found
+        fi
+    done
+    return 1  # Failure: function not found
+}
+
+if [[ $# -eq 0 || "$1" == "-h" || "$1" == "--help" ]]; then
+    help
+    exit 1
+fi
+
+if function_exists "$1"; then
+    "$1" "${@:2}"
+else
+    echo "Error: Unknown function '$1'"
+    help
+    exit 1
+fi
