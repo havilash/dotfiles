@@ -4,7 +4,8 @@
 
 VERSION="1.0.0"
 
-if [ "$SUDO_USER" ]; then
+if [ "$SUDO_USER" ]
+then
     USER_HOME=$(eval echo "~$SUDO_USER")
 else
     USER_HOME=$HOME

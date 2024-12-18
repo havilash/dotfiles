@@ -122,5 +122,6 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 
-WIN_PATH="/mnt/c/Users/TAASIHA7/"
-alias cdw="cd $WIN_PATH"
+if command -v starship &> /dev/null; then
+  eval "$(starship init bash)"
+fi
