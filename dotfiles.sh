@@ -1,15 +1,22 @@
+
 #!/bin/bash
 # description: Script to sync configuration files between the repository and the system.
 
 VERSION="1.0.0"
 
+if [ "$SUDO_USER" ]; then
+    USER_HOME=$(eval echo "~$SUDO_USER")
+else
+    USER_HOME=$HOME
+fi
+
 declare -A PATHS=(
-    ["./nvim"]="$HOME/.config/nvim"
-    ["./tmux/.tmux.conf"]="$HOME/.tmux.conf"
-    ["./starship/starship.toml"]="$HOME/.config/starship.toml"
-    ["./bashrc/.bashrc"]="$HOME/.bashrc"
-    ["./bin/cb"]="$HOME/bin/cb"
-    ["./bin/corp"]="$HOME/bin/corp"
+    ["./nvim"]="$USER_HOME/.config/nvim"
+    ["./tmux/.tmux.conf"]="$USER_HOME/.tmux.conf"
+    ["./starship/starship.toml"]="$USER_HOME/.config/starship.toml"
+    ["./bashrc/.bashrc"]="$USER_HOME/.bashrc"
+    ["./bin/cb"]="$USER_HOME/bin/cb"
+    ["./bin/corp"]="$USER_HOME/bin/corp"
 )
 
 _usage() {
