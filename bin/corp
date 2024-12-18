@@ -1,56 +1,54 @@
 #!/bin/bash
 
-ap() {
-    export http_proxy="http://aproxy.corproot.net:8080/"
-    export https_proxy="http://aproxy.corproot.net:8080/"
-    export no_proxy="localhost,127.0.0.1/32,**.swisscom.com,.swisscom.ch,.corproot.net,.sharedtcs.net,*.docker.internal,172.17.178.5"
+HTTP_PROXY="http://aproxy.corproot.net:8080/"
+HTTPS_PROXY="http://aproxy.corproot.net:8080/"
+NO_PROXY="localhost,127.0.0.1/32,**.swisscom.com,.swisscom.ch,.corproot.net,.sharedtcs.net,*.docker.internal,172.17.178.5"
+
+_usage() {
+    cat <<EOF
+Usage: corp [OPTIONS] [COMMAND]
+
+Corprate commands.
+
+Options:
+  -h, --help           Show this help message and exit.
+
+Commands:
+  ap                   Enable proxy settings.
+  dp                   Disable proxy settings.
+  help                 Show usage information.
+EOF
+}
+
+_ap() {
+    export http_proxy="$HTTP_PROXY"
+    export https_proxy="$HTTPS_PROXY"
+    export no_proxy="$NO_PROXY"
     echo "Proxy enabled:"
     echo "  HTTP Proxy: $http_proxy"
     echo "  HTTPS Proxy: $https_proxy"
     echo "  No Proxy: $no_proxy"
 }
 
-dp() {
-    unset http_proxy
-    unset https_proxy
-    unset no_proxy
+_dp() {
+    unset http_proxy https_proxy no_proxy
     echo "Proxy disabled."
 }
 
+main() {
+    if [ $# -eq 0 ]
+    then
+        _usage
+        exit 1
+    fi
 
-FUNCTIONS=(ap dp help)
-
-help() {
-    echo "Usage: $0 <function_name>"
-    echo
-    echo "Available functions:"
-    for func in "${FUNCTIONS[@]}"; do
-        echo "  $func"
-    done
-    echo
-    echo "Example:"
-    echo "  $0 ap   # Enables the proxy"
-    echo "  $0 dp   # Disables the proxy"
+    case "$1" in
+        ap) _ap ;;
+        dp) _dp ;;
+        -h|--help) _usage; exit 0 ;;
+        help) _usage; exit 0 ;;
+        *) echo "Error: Unknown command '$1'"; _usage; exit 1 ;;
+    esac
 }
 
-function_exists() {
-    for func in "${FUNCTIONS[@]}"; do
-        if [[ "$func" == "$1" ]]; then
-            return 0  # Success: function found
-        fi
-    done
-    return 1  # Failure: function not found
-}
-
-if [[ $# -eq 0 || "$1" == "-h" || "$1" == "--help" ]]; then
-    help
-    exit 1
-fi
-
-if function_exists "$1"; then
-    "$1" "${@:2}"
-else
-    echo "Error: Unknown function '$1'"
-    help
-    exit 1
-fi
+main "$@"
