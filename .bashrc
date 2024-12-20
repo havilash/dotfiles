@@ -130,5 +130,7 @@ if command -v starship &> /dev/null; then
   eval "$(starship init bash)"
 fi
 
-alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-config config --local status.showUntrackedFiles no
+function dotfiles {
+   /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME $@
+}
+dotfiles config --local status.showUntrackedFiles no
