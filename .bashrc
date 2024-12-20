@@ -131,6 +131,6 @@ if command -v starship &> /dev/null; then
 fi
 
 function dotfiles {
-   /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME $@
+   /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME "$@"
 }
 dotfiles config --local status.showUntrackedFiles no
