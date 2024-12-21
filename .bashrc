@@ -78,3 +78,5 @@ fi
 
 # Source configuration files
 [ -f ~/.bashrc_aliases ] && source ~/.bashrc_aliases
+[ -f ~/bin/init ] && source ~/bin/init
+
