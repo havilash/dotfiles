@@ -67,6 +67,17 @@ dotfiles config --local status.showUntrackedFiles no
 ## Reload .bashrc
 alias reload='source ~/.bashrc'
 
+## Windows home directory shortcut (for WSL with dynamic Windows user)
+WIN_USER=$(whoami.exe | tr -d '\r' | cut -d'\' -f2)
+WIN_HOME="/mnt/c/Users/$WIN_USER"
+
+if [ -d $WIN_HOME ]; then
+    function cdwin {
+        cd $WIN_HOME
+    }
+fi
+
+
 # Programmable Completion
 if ! shopt -oq posix; then
     if [ -f /usr/share/bash-completion/bash_completion ]; then

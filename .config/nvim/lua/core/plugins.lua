@@ -29,6 +29,13 @@ function lazy.setup(plugins)
 end
 
 lazy.path = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
-lazy.opts = {}
+lazy.opts = {
+  ui = {
+    icons = vim.g.icons,
+  },
+}
 
-lazy.setup { { import = 'plugins' }, { import = 'plugins.lsp' } }
+lazy.setup {
+  { import = 'plugins' },
+  { import = 'plugins.lsp' },
+}
