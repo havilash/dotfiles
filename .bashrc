@@ -53,9 +53,9 @@ if [ -f ~/.fzf.bash ]; then
 fi
 
 ## Starship prompt
-# if command -v starship &>/dev/null; then
-#     eval "$(starship init bash)"
-# fi
+if command -v starship &>/dev/null; then
+    eval "$(starship init bash)"
+fi
 
 ## dotfiles
 function dotfiles {
