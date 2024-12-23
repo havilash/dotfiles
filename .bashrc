@@ -37,6 +37,7 @@ case "$TERM" in
         ;;
 esac
 
+export EDITOR="nvim"
 
 # Tools
 ## nvm
@@ -72,6 +73,7 @@ WIN_USER=$(whoami.exe | tr -d '\r' | cut -d'\' -f2)
 WIN_HOME="/mnt/c/Users/$WIN_USER"
 
 if [ -d $WIN_HOME ]; then
+    export WIN_HOME
     function cdwin {
         cd $WIN_HOME
     }

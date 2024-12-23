@@ -7,6 +7,12 @@ return {
       local lint = require 'lint'
       lint.linters_by_ft = {
         markdown = { 'markdownlint' },
+        -- javascript = { 'eslint' },
+        -- typescript = { 'eslint' },
+        -- javascriptreact = { 'eslint' },
+        -- typescriptreact = { 'eslint' },
+        -- svelte = { 'eslint' },
+        -- python = { 'pylint' },
       }
 
       -- To allow other plugins to add linters to require('lint').linters_by_ft,
@@ -55,6 +61,10 @@ return {
           end
         end,
       })
+
+      vim.keymap.set('n', '<leader>cl', function()
+        lint.try_lint()
+      end, { desc = '[C]ode [L]int current file' })
     end,
   },
 }
