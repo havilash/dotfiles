@@ -1,5 +1,6 @@
 return { -- Fuzzy Finder (files, lsp, etc)
   'nvim-telescope/telescope.nvim',
+  enabled = not vim.g.vscode,
   event = 'VimEnter',
   branch = '0.1.x',
   dependencies = {
@@ -100,5 +101,10 @@ return { -- Fuzzy Finder (files, lsp, etc)
     vim.keymap.set('n', '<leader>sn', function()
       builtin.find_files { cwd = vim.fn.stdpath 'config' }
     end, { desc = '[S]earch [N]eovim files' })
+
+    -- Shortcut for searching your Neovim plugins
+    vim.keymap.set('n', '<leader>sp', function()
+      builtin.find_files { cwd = vim.fs.joinpath(vim.fn.stdpath 'data', 'lazy') }
+    end, { desc = '[S]earch Neovim [P]lugins files' })
   end,
 }

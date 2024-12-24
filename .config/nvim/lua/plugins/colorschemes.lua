@@ -4,6 +4,7 @@ return {
   -- 'catppuccin/nvim',
   -- name = 'catppuccin',
   'navarasu/onedark.nvim',
+  enabled = not vim.g.vscode,
   style = 'darker',
   priority = 1000,
   init = function()

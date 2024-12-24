@@ -1,5 +1,6 @@
 return {
   'vim-test/vim-test',
+  enabled = not vim.g.vscode,
   dependencies = {
     'preservim/vimux',
   },
