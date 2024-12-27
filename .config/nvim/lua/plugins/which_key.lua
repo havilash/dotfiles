@@ -39,7 +39,6 @@ return { -- Useful plugin to show you pending keybinds.
         F12 = '<F12>',
       },
     },
-
     -- Document existing key chains
     spec = {
       { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },

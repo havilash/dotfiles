@@ -40,3 +40,7 @@ if not vim.g.vscode then
   vim.keymap.set('n', '<C-Right>', '<cmd>vertical resize +2<cr>', { desc = 'Increase window width' })
   vim.keymap.set('n', '<C-Left>', '<cmd>vertical resize -2<cr>', { desc = 'Decrease window width' })
 end
+
+vim.keymap.set('n', '<leader>?', function()
+  require('which-key').show { global = false }
+end, { desc = 'Buffer Local Keymaps (which-key)' })

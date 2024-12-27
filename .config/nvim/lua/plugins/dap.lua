@@ -23,7 +23,7 @@ return {
     'jay-babu/mason-nvim-dap.nvim',
 
     -- Add your own debuggers here
-    'leoluz/nvim-dap-go',
+    'mfussenegger/nvim-dap-python',
   },
   keys = function(_, keys)
     local dap = require 'dap'
@@ -63,7 +63,7 @@ return {
       -- You'll need to check that you have the required things installed
       -- online, please don't ask me how to install them :)
       ensure_installed = {
-        'debugpy',
+        'python',
       },
     }
 
@@ -100,6 +100,24 @@ return {
       local hl = (type == 'Stopped') and 'DapStop' or 'DapBreak'
       vim.fn.sign_define(tp, { text = icon, texthl = hl, numhl = hl })
     end
+
+    -- Python-specific debug configuration
+    dap.adapters.python = {
+      type = 'server',
+      host = '127.0.0.1',
+      port = 5678,
+    }
+    dap.configurations.python = {
+      {
+        name = 'Launch Python file',
+        type = 'python',
+        request = 'launch',
+        program = '${file}',
+        pythonPath = function()
+          return vim.fn.exepath 'python' -- Automatically detect Python executable
+        end,
+      },
+    }
 
     dap.listeners.after.event_initialized['dapui_config'] = dapui.open
     dap.listeners.before.event_terminated['dapui_config'] = dapui.close
