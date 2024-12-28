@@ -177,6 +177,7 @@ return {
       emmet_language_server = {},
       eslint = {},
       bashls = {},
+      csharp_ls = {},
 
       --
 
