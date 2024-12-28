@@ -69,6 +69,11 @@ function dotfiles {
 }
 dotfiles config --local status.showUntrackedFiles no
 
+if dotfiles status --porcelain | grep -qE '^(#| M)'; then
+    echo "Warning: Your dotfiles have changes:"
+    dotfiles status --porcelain | awk '{ printf "  - %s\n", $0 }'
+fi
+
 # Utility
 ## Reload .bashrc
 alias reload='source ~/.bashrc'
