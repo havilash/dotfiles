@@ -29,8 +29,22 @@ vim.keymap.set('v', 'p', '"_dP')
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
--- Non VSCode keymaps
-if not vim.g.vscode then
+if vim.g.vscode then
+  -- VSCode keymaps
+  -- general keymaps
+  -- vim.keymap.set({ 'n', 'v' }, '<leader>t', "<cmd>lua require('vscode').action('workbench.action.terminal.toggleTerminal')<CR>")
+  vim.keymap.set('n', '<leader>b', "<cmd>lua require('vscode').action('editor.debug.action.toggleBreakpoint')<CR>")
+  vim.keymap.set('n', '<leader>B', "<cmd>lua require('vscode').action('editor.debug.action.conditionalBreakpoint')<CR>")
+  -- vim.keymap.set({ 'n', 'v' }, '<leader>d', "<cmd>lua require('vscode').action('editor.action.showHover')<CR>")
+  vim.keymap.set('n', '<leader>ca', "<cmd>lua require('vscode').action('editor.action.quickFix')<CR>")
+  -- vim.keymap.set({ 'n', 'v' }, '<leader>sp', "<cmd>lua require('vscode').action('workbench.actions.view.problems')<CR>")
+  -- vim.keymap.set({ 'n', 'v' }, '<leader>cn', "<cmd>lua require('vscode').action('notifications.clearAll')<CR>")
+  -- vim.keymap.set({ 'n', 'v' }, '<leader>ff', "<cmd>lua require('vscode').action('workbench.action.quickOpen')<CR>")
+  -- vim.keymap.set({ 'n', 'v' }, '<leader>cp', "<cmd>lua require('vscode').action('workbench.action.showCommands')<CR>")
+  -- vim.keymap.set({ 'n', 'v' }, '<leader>pr', "<cmd>lua require('vscode').action('code-runner.run')<CR>")
+  vim.keymap.set({ 'n', 'v' }, '<leader>f', "<cmd>lua require('vscode').action('editor.action.formatDocument')<CR>")
+else
+  -- Non VSCode keymaps
   -- Diagnostic keymaps
   vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
