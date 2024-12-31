@@ -53,7 +53,7 @@ if [ -d "$HOME/.nvm" ]; then
 fi
 
 ## fzf
-if [ -f ~/.fzf.bash ]; then
+if [ -f $HOME/.fzf.bash ]; then
     source ~/.fzf.bash
     export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!.git'"
 fi
