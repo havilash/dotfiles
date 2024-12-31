@@ -1,6 +1,3 @@
--- Create a group for user commands and autocommands
-local user_group = vim.api.nvim_create_augroup('UserCommands', { clear = true })
-
 -- User command to reload the Neovim configuration
 vim.api.nvim_create_user_command('ReloadConfig', function()
   vim.cmd('source ' .. vim.env.MYVIMRC)
@@ -8,7 +5,7 @@ end, { desc = 'Reload Neovim configuration' })
 
 -- Autocommand: Highlight yanked text
 vim.api.nvim_create_autocmd('TextYankPost', {
-  group = user_group,
+  group = vim.api.nvim_create_augroup('custom-yank-highlight', { clear = true }),
   desc = 'Highligt on yank',
   callback = function()
     vim.highlight.on_yank { higroup = 'Visual', timeout = 200 }
@@ -17,7 +14,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 -- Autocommand: Close help and man buffers with 'q'
 vim.api.nvim_create_autocmd('FileType', {
-  group = user_group,
+  group = vim.api.nvim_create_augroup('custom-help-close', { clear = true }),
   pattern = { 'help', 'man' },
   desc = 'Close buffer with q in help and man',
   callback = function()

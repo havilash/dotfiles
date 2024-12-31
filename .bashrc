@@ -2,15 +2,15 @@
 
 # If not running interactively, exit immediately
 case $- in
-    *i*) ;;
-      *) return;;
+*i*) ;;
+*) return ;;
 esac
 
 # History settings
-HISTCONTROL=ignoreboth     # Ignore duplicates and leading spaces
-HISTSIZE=1000              # Number of commands to remember in history
-HISTFILESIZE=2000          # Maximum size of the history file
-shopt -s histappend        # Append history instead of overwriting
+HISTCONTROL=ignoreboth # Ignore duplicates and leading spaces
+HISTSIZE=1000          # Number of commands to remember in history
+HISTFILESIZE=2000      # Maximum size of the history file
+shopt -s histappend    # Append history instead of overwriting
 
 # Adjust window size automatically
 shopt -s checkwinsize
@@ -21,7 +21,7 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
 fi
 
 case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
+xterm-color | *-256color) color_prompt=yes ;;
 esac
 
 if [ -n "$force_color_prompt" ] || [ "$color_prompt" = yes ]; then
@@ -32,9 +32,9 @@ fi
 
 # Set the terminal title for xterm
 case "$TERM" in
-    xterm*|rxvt*)
-        PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-        ;;
+xterm* | rxvt*)
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    ;;
 esac
 
 export EDITOR="nvim"
@@ -48,8 +48,8 @@ fi
 ## nvm
 if [ -d "$HOME/.nvm" ]; then
     export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # Load nvm
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # nvm bash completion
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # Load nvm
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # nvm bash completion
 fi
 
 ## fzf
@@ -65,7 +65,7 @@ fi
 
 ## dotfiles
 function dotfiles {
-   /usr/bin/git --git-dir="$HOME/.dotfiles/" --work-tree="$HOME" "$@"
+    /usr/bin/git --git-dir="$HOME/.dotfiles/" --work-tree="$HOME" "$@"
 }
 dotfiles config --local status.showUntrackedFiles no
 
@@ -89,7 +89,6 @@ if [ -d $WIN_HOME ]; then
     }
 fi
 
-
 # Programmable Completion
 if ! shopt -oq posix; then
     if [ -f /usr/share/bash-completion/bash_completion ]; then
@@ -102,4 +101,3 @@ fi
 # Source configuration files
 [ -f ~/.bashrc_aliases ] && source ~/.bashrc_aliases
 [ -f ~/bin/init.sh ] && source ~/bin/init.sh
-

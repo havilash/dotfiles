@@ -46,6 +46,7 @@ return { -- Autoformat
       css = { 'prettierd', 'prettier', stop_after_first = true },
 
       csharp = { 'csharpier' },
+      bash = { 'shfmt' },
     },
   },
 }
