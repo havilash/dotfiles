@@ -53,7 +53,6 @@ if [ -d "$HOME/.nvm" ]; then
 fi
 
 ## fzf
-echo "fzf command: $(command -v fzf)"
 if command -v fzf &>/dev/null; then
     export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!.git'"
     eval "$(fzf --bash)"
