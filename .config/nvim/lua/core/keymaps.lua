@@ -53,20 +53,40 @@ if vim.g.vscode then
   -- vim.keymap.set({ 'n', 'v' }, '<leader>pr', vscode.action('code-runner.run'))
 
   -- General keymaps
-  vim.keymap.set('n', '<leader>b', vscode.action 'editor.debug.action.toggleBreakpoint')
-  vim.keymap.set('n', '<leader>B', vscode.action 'editor.debug.action.conditionalBreakpoint')
-  vim.keymap.set('n', '<leader>ca', vscode.action 'editor.action.quickFix')
-  vim.keymap.set({ 'n', 'v' }, '<leader>f', vscode.action 'editor.action.formatDocument')
+  vim.keymap.set('n', '<leader>b', function()
+    vscode.action 'editor.debug.action.toggleBreakpoint'
+  end)
+  vim.keymap.set('n', '<leader>B', function()
+    vscode.action 'editor.debug.action.conditionalBreakpoint'
+  end)
+  vim.keymap.set('n', '<leader>ca', function()
+    vscode.action 'editor.action.quickFix'
+  end)
+  vim.keymap.set({ 'n', 'v' }, '<leader>f', function()
+    vscode.action 'editor.action.formatDocument'
+  end)
 
-  -- Navigation keymaps
-  vim.keymap.set('n', '<C-h>', vscode.action 'workbench.action.navigateLeft')
-  vim.keymap.set('n', '<C-l>', vscode.action 'workbench.action.navigateRight')
-  vim.keymap.set('n', '<C-k>', vscode.action 'workbench.action.navigateUp')
-  vim.keymap.set('n', '<C-j>', vscode.action 'workbench.action.navigateDown')
+  -- TODO: Navigation keymaps
+  vim.keymap.set('n', '<C-h>', function()
+    vscode.action 'workbench.action.navigateLeft'
+  end)
+  vim.keymap.set('n', '<C-l>', function()
+    vscode.action 'workbench.action.navigateRight'
+  end)
+  vim.keymap.set('n', '<C-k>', function()
+    vscode.action 'workbench.action.navigateUp'
+  end)
+  vim.keymap.set('n', '<C-j>', function()
+    vscode.action 'workbench.action.navigateDown'
+  end)
 
-  -- Suggestion navigation
-  vim.keymap.set('n', '<C-p>', vscode.action 'selectPrevSuggestion', { when = 'suggestWidgetVisible || editor.action.quickFixWidgetVisible' })
-  vim.keymap.set('n', '<C-n>', vscode.action 'selectNextSuggestion', { when = 'suggestWidgetVisible || editor.action.quickFixWidgetVisible' })
+  -- TODO: Suggestion navigation
+  vim.keymap.set('n', '<C-p>', function()
+    vscode.action 'selectPrevSuggestion'
+  end)
+  vim.keymap.set('n', '<C-n>', function()
+    vscode.action 'selectNextSuggestion'
+  end)
 else
   -- Non VSCode keymaps
   -- Diagnostic keymaps
