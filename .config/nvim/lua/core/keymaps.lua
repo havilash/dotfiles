@@ -44,7 +44,6 @@ if vim.g.vscode then
   -- VSCode keymaps
   local vscode = require 'vscode'
 
-  -- Uncomment and add any keymaps you need later
   -- vim.keymap.set({ 'n', 'v' }, '<leader>t', vscode.action('workbench.action.terminal.toggleTerminal'))
   -- vim.keymap.set({ 'n', 'v' }, '<leader>d', vscode.action('editor.action.showHover'))
   -- vim.keymap.set({ 'n', 'v' }, '<leader>sp', vscode.action('workbench.actions.view.problems'))
