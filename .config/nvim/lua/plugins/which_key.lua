@@ -2,6 +2,17 @@ return { -- Useful plugin to show you pending keybinds.
   'folke/which-key.nvim',
   enabled = not vim.g.vscode,
   event = 'VimEnter', -- Sets the loading event to 'VimEnter'
+
+  keys = {
+    {
+      '<leader>?',
+      function()
+        require('which-key').show { global = false }
+      end,
+      desc = 'Buffer Local Keymaps (which-key)',
+    },
+  },
+
   opts = {
     icons = {
       -- set icon mappings to true if you have a Nerd Font
@@ -39,16 +50,18 @@ return { -- Useful plugin to show you pending keybinds.
         F12 = '<F12>',
       },
     },
+
     -- Document existing key chains
     spec = {
       { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
-      { '<leader>ct', group = '[C]ode [T]est' },
       { '<leader>d', group = '[D]ocument' },
       { '<leader>r', group = '[R]ename' },
       { '<leader>s', group = '[S]earch' },
       { '<leader>w', group = '[W]orkspace' },
       { '<leader>t', group = '[T]oggle' },
       { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+      { '<leader>x', group = 'E[X]ecute' },
+      { '<leader>xt', group = '[C]ode [T]est' },
     },
   },
 }

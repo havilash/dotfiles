@@ -29,20 +29,33 @@ vim.keymap.set('v', 'p', '"_dP')
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
+-- Execute lua
+vim.api.nvim_create_autocmd('FileType', {
+  group = vim.api.nvim_create_augroup('custom-execute-lua', { clear = true }),
+  pattern = 'lua',
+  callback = function()
+    vim.keymap.set('n', '<space>xf', '<cmd>source %<CR>', { desc = 'E[X]ecute [F]ile', buffer = true })
+    vim.keymap.set('n', '<space>xx', '<cmd>:.lua<CR>', { desc = 'E[X]ecute [X] current line', buffer = true })
+    vim.keymap.set('v', '<space>xx', '<cmd>:lua<CR>', { desc = 'E[X]ecute [X] selected text', buffer = true })
+  end,
+})
+
 if vim.g.vscode then
   -- VSCode keymaps
+  --
   -- general keymaps
-  -- vim.keymap.set({ 'n', 'v' }, '<leader>t', "<cmd>lua require('vscode').action('workbench.action.terminal.toggleTerminal')<CR>")
-  vim.keymap.set('n', '<leader>b', "<cmd>lua require('vscode').action('editor.debug.action.toggleBreakpoint')<CR>")
-  vim.keymap.set('n', '<leader>B', "<cmd>lua require('vscode').action('editor.debug.action.conditionalBreakpoint')<CR>")
-  -- vim.keymap.set({ 'n', 'v' }, '<leader>d', "<cmd>lua require('vscode').action('editor.action.showHover')<CR>")
-  vim.keymap.set('n', '<leader>ca', "<cmd>lua require('vscode').action('editor.action.quickFix')<CR>")
-  -- vim.keymap.set({ 'n', 'v' }, '<leader>sp', "<cmd>lua require('vscode').action('workbench.actions.view.problems')<CR>")
-  -- vim.keymap.set({ 'n', 'v' }, '<leader>cn', "<cmd>lua require('vscode').action('notifications.clearAll')<CR>")
-  -- vim.keymap.set({ 'n', 'v' }, '<leader>ff', "<cmd>lua require('vscode').action('workbench.action.quickOpen')<CR>")
-  -- vim.keymap.set({ 'n', 'v' }, '<leader>cp', "<cmd>lua require('vscode').action('workbench.action.showCommands')<CR>")
-  -- vim.keymap.set({ 'n', 'v' }, '<leader>pr', "<cmd>lua require('vscode').action('code-runner.run')<CR>")
-  vim.keymap.set({ 'n', 'v' }, '<leader>f', "<cmd>lua require('vscode').action('editor.action.formatDocument')<CR>")
+  -- vim.keymap.set({ 'n', 'v' }, '<leader>t', vscode.action('workbench.action.terminal.toggleTerminal'))
+  local vscode = require 'vscode'
+  vim.keymap.set('n', '<leader>b', vscode.toggleBreakpoint)
+  vim.keymap.set('n', '<leader>B', vscode.action 'editor.debug.action.conditionalBreakpoint')
+  -- vim.keymap.set({ 'n', 'v' }, '<leader>d', vscode.action('editor.action.showHover'))
+  vim.keymap.set('n', '<leader>ca', vscode.action 'editor.action.quickFix')
+  -- vim.keymap.set({ 'n', 'v' }, '<leader>sp', vscode.action('workbench.actions.view.problems'))
+  -- vim.keymap.set({ 'n', 'v' }, '<leader>cn', vscode.action('notifications.clearAll'))
+  -- vim.keymap.set({ 'n', 'v' }, '<leader>ff', vscode.action('workbench.action.quickOpen'))
+  -- vim.keymap.set({ 'n', 'v' }, '<leader>cp', vscode.action('workbench.action.showCommands'))
+  -- vim.keymap.set({ 'n', 'v' }, '<leader>pr', vscode.action('code-runner.run'))
+  vim.keymap.set({ 'n', 'v' }, '<leader>f', vscode.action 'editor.action.formatDocument')
 else
   -- Non VSCode keymaps
   -- Diagnostic keymaps
@@ -68,9 +81,4 @@ else
   vim.keymap.set('n', '<C-Down>', '<cmd>resize -2<cr>', { desc = 'Decrease window height' })
   vim.keymap.set('n', '<C-Right>', '<cmd>vertical resize +2<cr>', { desc = 'Increase window width' })
   vim.keymap.set('n', '<C-Left>', '<cmd>vertical resize -2<cr>', { desc = 'Decrease window width' })
-
-  -- See available commands using which key
-  vim.keymap.set('n', '<leader>?', function()
-    require('which-key').show { global = false }
-  end, { desc = 'Buffer Local Keymaps (which-key)' })
 end
