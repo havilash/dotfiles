@@ -42,20 +42,32 @@ vim.api.nvim_create_autocmd('FileType', {
 
 if vim.g.vscode then
   -- VSCode keymaps
-  --
-  -- general keymaps
-  -- vim.keymap.set({ 'n', 'v' }, '<leader>t', vscode.action('workbench.action.terminal.toggleTerminal'))
   local vscode = require 'vscode'
-  vim.keymap.set('n', '<leader>b', vscode.toggleBreakpoint)
-  vim.keymap.set('n', '<leader>B', vscode.action 'editor.debug.action.conditionalBreakpoint')
+
+  -- Uncomment and add any keymaps you need later
+  -- vim.keymap.set({ 'n', 'v' }, '<leader>t', vscode.action('workbench.action.terminal.toggleTerminal'))
   -- vim.keymap.set({ 'n', 'v' }, '<leader>d', vscode.action('editor.action.showHover'))
-  vim.keymap.set('n', '<leader>ca', vscode.action 'editor.action.quickFix')
   -- vim.keymap.set({ 'n', 'v' }, '<leader>sp', vscode.action('workbench.actions.view.problems'))
   -- vim.keymap.set({ 'n', 'v' }, '<leader>cn', vscode.action('notifications.clearAll'))
   -- vim.keymap.set({ 'n', 'v' }, '<leader>ff', vscode.action('workbench.action.quickOpen'))
   -- vim.keymap.set({ 'n', 'v' }, '<leader>cp', vscode.action('workbench.action.showCommands'))
   -- vim.keymap.set({ 'n', 'v' }, '<leader>pr', vscode.action('code-runner.run'))
+
+  -- General keymaps
+  vim.keymap.set('n', '<leader>b', vscode.action 'editor.debug.action.toggleBreakpoint')
+  vim.keymap.set('n', '<leader>B', vscode.action 'editor.debug.action.conditionalBreakpoint')
+  vim.keymap.set('n', '<leader>ca', vscode.action 'editor.action.quickFix')
   vim.keymap.set({ 'n', 'v' }, '<leader>f', vscode.action 'editor.action.formatDocument')
+
+  -- Navigation keymaps
+  vim.keymap.set('n', '<C-h>', vscode.action 'workbench.action.navigateLeft')
+  vim.keymap.set('n', '<C-l>', vscode.action 'workbench.action.navigateRight')
+  vim.keymap.set('n', '<C-k>', vscode.action 'workbench.action.navigateUp')
+  vim.keymap.set('n', '<C-j>', vscode.action 'workbench.action.navigateDown')
+
+  -- Suggestion navigation
+  vim.keymap.set('n', '<C-p>', vscode.action 'selectPrevSuggestion', { when = 'suggestWidgetVisible || editor.action.quickFixWidgetVisible' })
+  vim.keymap.set('n', '<C-n>', vscode.action 'selectNextSuggestion', { when = 'suggestWidgetVisible || editor.action.quickFixWidgetVisible' })
 else
   -- Non VSCode keymaps
   -- Diagnostic keymaps
