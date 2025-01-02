@@ -30,11 +30,6 @@ if [ -d "$HOME/.tmuxifier/bin" ]; then
     PATH="$HOME/.tmuxifier/bin:$PATH"
 fi
 
-# Flutter
-if [ -d $HOME/applications/flutter/bin ]; then
-    export PATH=$HOME/applications/flutter/bin:$PATH
-fi
-
 # fzf
 if [[ -d $HOME/.fzf/bin ]]; then
     export PATH=$HOME/.fzf/bin:$PATH
