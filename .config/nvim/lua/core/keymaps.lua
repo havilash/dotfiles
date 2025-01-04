@@ -40,54 +40,7 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
-if vim.g.vscode then
-  -- VSCode keymaps
-  local vscode = require 'vscode'
-
-  -- vim.keymap.set({ 'n', 'v' }, '<leader>t', vscode.action('workbench.action.terminal.toggleTerminal'))
-  -- vim.keymap.set({ 'n', 'v' }, '<leader>d', vscode.action('editor.action.showHover'))
-  -- vim.keymap.set({ 'n', 'v' }, '<leader>sp', vscode.action('workbench.actions.view.problems'))
-  -- vim.keymap.set({ 'n', 'v' }, '<leader>cn', vscode.action('notifications.clearAll'))
-  -- vim.keymap.set({ 'n', 'v' }, '<leader>ff', vscode.action('workbench.action.quickOpen'))
-  -- vim.keymap.set({ 'n', 'v' }, '<leader>cp', vscode.action('workbench.action.showCommands'))
-  -- vim.keymap.set({ 'n', 'v' }, '<leader>pr', vscode.action('code-runner.run'))
-
-  -- General keymaps
-  vim.keymap.set('n', '<leader>b', function()
-    vscode.action 'editor.debug.action.toggleBreakpoint'
-  end)
-  vim.keymap.set('n', '<leader>B', function()
-    vscode.action 'editor.debug.action.conditionalBreakpoint'
-  end)
-  vim.keymap.set('n', '<leader>ca', function()
-    vscode.action 'editor.action.quickFix'
-  end)
-  vim.keymap.set({ 'n', 'v' }, '<leader>f', function()
-    vscode.action 'editor.action.formatDocument'
-  end)
-
-  -- TODO: Navigation keymaps
-  vim.keymap.set('n', '<C-h>', function()
-    vscode.action 'workbench.action.navigateLeft'
-  end)
-  vim.keymap.set('n', '<C-l>', function()
-    vscode.action 'workbench.action.navigateRight'
-  end)
-  vim.keymap.set('n', '<C-k>', function()
-    vscode.action 'workbench.action.navigateUp'
-  end)
-  vim.keymap.set('n', '<C-j>', function()
-    vscode.action 'workbench.action.navigateDown'
-  end)
-
-  -- TODO: Suggestion navigation
-  vim.keymap.set('n', '<C-p>', function()
-    vscode.action 'selectPrevSuggestion'
-  end)
-  vim.keymap.set('n', '<C-n>', function()
-    vscode.action 'selectNextSuggestion'
-  end)
-else
+if not vim.g.vscode then
   -- Non VSCode keymaps
   -- Diagnostic keymaps
   vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
@@ -112,4 +65,6 @@ else
   vim.keymap.set('n', '<C-Down>', '<cmd>resize -2<cr>', { desc = 'Decrease window height' })
   vim.keymap.set('n', '<C-Right>', '<cmd>vertical resize +2<cr>', { desc = 'Increase window width' })
   vim.keymap.set('n', '<C-Left>', '<cmd>vertical resize -2<cr>', { desc = 'Decrease window width' })
+else
+  require 'core.vscode_keymaps'
 end
