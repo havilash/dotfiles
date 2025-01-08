@@ -20,9 +20,17 @@ EOF
 }
 
 _ap() {
+    # System
     export http_proxy="$HTTP_PROXY"
     export https_proxy="$HTTPS_PROXY"
     export no_proxy="$NO_PROXY"
+
+    # Git
+    git config --global http.proxy "$HTTP_PROXY"
+    git config --global https.proxy "$HTTPS_PROXY"
+    git config --global http.noProxy "$NO_PROXY"
+
+
     echo "Proxy enabled:"
     echo "  HTTP Proxy: $http_proxy"
     echo "  HTTPS Proxy: $https_proxy"
@@ -30,7 +38,13 @@ _ap() {
 }
 
 _dp() {
+    # System
     unset http_proxy https_proxy no_proxy
+
+    # Git
+    git config --global --unset http.proxy
+    git config --global --unset https.proxy
+    git config --global --unset http.noProxy
     echo "Proxy disabled."
 }
 
