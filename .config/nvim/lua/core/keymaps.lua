@@ -65,6 +65,11 @@ if not vim.g.vscode then
   vim.keymap.set('n', '<C-Down>', '<cmd>resize -2<cr>', { desc = 'Decrease window height' })
   vim.keymap.set('n', '<C-Right>', '<cmd>vertical resize +2<cr>', { desc = 'Increase window width' })
   vim.keymap.set('n', '<C-Left>', '<cmd>vertical resize -2<cr>', { desc = 'Decrease window width' })
+
+  -- Workspace
+  vim.keymap.set('n', '<leader>wb', function()
+    vim.cmd('cd ' .. vim.fn.expand '%:p:h')
+  end, { desc = '[W]orkspace to [B]uffer path' })
 else
   require 'core.vscode_keymaps'
 end
