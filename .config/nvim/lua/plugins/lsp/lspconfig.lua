@@ -172,12 +172,25 @@ return {
       --    https://github.com/pmizio/typescript-tools.nvim
       --
       -- But for many setups, the LSP (`ts_ls`) will work just fine
-      ts_ls = {},
       tailwindcss = {},
       emmet_language_server = {},
       eslint = {},
       bashls = {},
       csharp_ls = {},
+      -- volar = {},
+
+      ts_ls = {
+        init_options = {
+          plugins = {
+            {
+              name = '@vue/typescript-plugin',
+              location = '/usr/local/lib/node_modules/@vue/language-server',
+              languages = { 'vue' },
+            },
+          },
+        },
+        filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+      },
 
       --
 
@@ -218,6 +231,8 @@ return {
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
     require('mason-lspconfig').setup {
+      ensure_installed = {},
+      automatic_installation = false,
       handlers = {
         function(server_name)
           local server = servers[server_name] or {}
