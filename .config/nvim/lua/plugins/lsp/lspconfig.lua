@@ -181,14 +181,14 @@ return {
       cssls = {},
       css_variables = {},
 
-      -- volar = {},
+      volar = {},
 
       ts_ls = {
         init_options = {
           plugins = {
             {
               name = '@vue/typescript-plugin',
-              location = '/usr/local/lib/node_modules/@vue/language-server',
+              location = vim.fn.systemlist('npm root -g')[1] .. '/@vue/language-server',
               languages = { 'vue' },
             },
           },
