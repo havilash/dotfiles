@@ -177,6 +177,10 @@ return {
       eslint = {},
       bashls = {},
       csharp_ls = {},
+      html = {},
+      cssls = {},
+      css_variables = {},
+
       -- volar = {},
 
       ts_ls = {
