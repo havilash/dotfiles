@@ -154,6 +154,7 @@ return {
 
     local npm_root = vim.fn.system('npm root -g'):gsub('%s+', '')
     local vue_ts_plugin_path = npm_root .. '/@vue/typescript-plugin'
+
     -- Enable the following language servers
     --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
     --
@@ -179,11 +180,10 @@ return {
       eslint = {},
       bashls = {},
       csharp_ls = {},
+
       html = {},
       cssls = {},
       css_variables = {},
-
-      volar = {},
 
       ts_ls = {
         filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
