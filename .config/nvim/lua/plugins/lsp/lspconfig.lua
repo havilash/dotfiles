@@ -152,6 +152,8 @@ return {
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
+    local npm_root = vim.fn.system('npm root -g'):gsub('%s+', '')
+    local vue_ts_plugin_path = npm_root .. '/@vue/typescript-plugin'
     -- Enable the following language servers
     --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
     --
@@ -177,20 +179,21 @@ return {
       eslint = {},
       bashls = {},
       csharp_ls = {},
-      -- volar = {},
 
       ts_ls = {
+        filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
         init_options = {
           plugins = {
             {
               name = '@vue/typescript-plugin',
-              location = '/usr/local/lib/node_modules/@vue/language-server',
+              location = vue_ts_plugin_path,
               languages = { 'vue' },
             },
           },
         },
-        filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
       },
+
+      volar = {},
 
       --
 
