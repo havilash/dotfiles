@@ -45,6 +45,8 @@ return { -- Autoformat
       json = { 'prettierd', 'prettier', stop_after_first = true },
       html = { 'prettierd', 'prettier', stop_after_first = true },
       css = { 'prettierd', 'prettier', stop_after_first = true },
+      scss = { 'prettierd', 'prettier', stop_after_first = true },
+      less = { 'prettierd', 'prettier', stop_after_first = true },
 
       csharp = { 'csharpier' },
       bash = { 'shfmt' },
