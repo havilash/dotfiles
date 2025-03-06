@@ -175,6 +175,7 @@ return {
       --    https://github.com/pmizio/typescript-tools.nvim
       --
       -- But for many setups, the LSP (`ts_ls`) will work just fine
+      asm_lsp = {},
       tailwindcss = {},
       emmet_language_server = {},
       eslint = {},
