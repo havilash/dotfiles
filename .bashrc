@@ -63,6 +63,9 @@ if command -v starship &>/dev/null; then
     eval "$(starship init bash)"
 fi
 
+## Rust
+[ -f ~/.cargo/env ] && source ~/.cargo/env
+
 ## dotfiles
 function dotfiles {
     /usr/bin/git --git-dir="$HOME/.dotfiles/" --work-tree="$HOME" "$@"
