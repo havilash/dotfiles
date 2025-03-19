@@ -1,6 +1,7 @@
 return {
   {
     'zbirenbaum/copilot-cmp',
+    enabled = not vim.g.vscode,
     event = 'InsertEnter',
     config = function()
       require('copilot_cmp').setup()
@@ -12,6 +13,7 @@ return {
 
   {
     'zbirenbaum/copilot.lua',
+    enabled = not vim.g.vscode,
     event = 'InsertEnter',
     cmd = 'Copilot',
     config = function()
@@ -23,6 +25,7 @@ return {
   },
   {
     'CopilotC-Nvim/CopilotChat.nvim',
+    enabled = not vim.g.vscode,
     lazy = true,
     event = 'VeryLazy',
     version = '*',

@@ -48,6 +48,7 @@ return { -- Autoformat
       scss = { 'prettierd', 'prettier', stop_after_first = true },
       less = { 'prettierd', 'prettier', stop_after_first = true },
       asm = { 'asmfmt' },
+      python = { 'black' },
 
       csharp = { 'csharpier' },
       bash = { 'shfmt' },
