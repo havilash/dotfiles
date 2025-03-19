@@ -21,3 +21,19 @@ vim.api.nvim_create_autocmd('FileType', {
     vim.api.nvim_buf_set_keymap(0, 'n', 'q', '<cmd>quit<cr>', { noremap = true, silent = true })
   end,
 })
+
+-- Autocommand: Auto save
+-- vim.api.nvim_create_autocmd({ 'BufLeave', 'FocusLost', 'VimLeavePre' }, {
+--   group = vim.api.nvim_create_augroup('custom-auto-save', { clear = true }),
+--   pattern = '*',
+--   callback = function(event)
+--     if event.buftype or event.file == '' then
+--       return
+--     end
+--     vim.api.nvim_buf_call(event.buf, function()
+--       vim.schedule(function()
+--         vim.cmd 'silent! write'
+--       end)
+--     end)
+--   end,
+-- })
