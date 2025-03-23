@@ -9,7 +9,7 @@ return { -- Useful plugin to show you pending keybinds.
       function()
         require('which-key').show { global = false }
       end,
-      desc = 'Buffer Local Keymaps (which-key)',
+      desc = 'Show Keymaps',
     },
   },
 
@@ -53,7 +53,7 @@ return { -- Useful plugin to show you pending keybinds.
 
     -- Document existing key chains
     spec = {
-      { '<leader>a', group = '[A]i' },
+      { '<leader>x', group = '[A]i' },
       { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
       { '<leader>d', group = '[D]ocument' },
       { '<leader>r', group = '[R]ename' },

@@ -1,28 +1,21 @@
 return {
-  --   'monkoose/neocodeium',
-  --   -- event = 'VeryLazy',
-  --   config = function()
-  --     local neocodeium = require 'neocodeium'
-  --     neocodeium.setup {
-  --       manual = true, -- recommended to not conflict with nvim-cmp
-  --     }
-  --
-  --     -- create an autocommand which closes cmp when ai completions are displayed
-  --     vim.api.nvim_create_autocmd('User', {
-  --       pattern = 'NeoCodeiumCompletionDisplayed',
-  --       callback = function()
-  --         require('cmp').abort()
-  --       end,
-  --     })
-  --
-  --     -- set up some sort of keymap to cycle and complete to trigger completion
-  --     vim.keymap.set('i', '<A-e>', function()
-  --       neocodeium.cycle_or_complete()
-  --     end)
-  --
-  --     -- make sure to have a mapping to accept a completion
-  --     vim.keymap.set('i', '<A-f>', function()
-  --       neocodeium.accept()
-  --     end)
-  --   end,
+  'monkoose/neocodeium',
+  event = 'VeryLazy',
+  enabled = not vim.g.vscode,
+  config = function()
+    local neocodeium = require 'neocodeium'
+    neocodeium.setup {
+      manual = true,
+    }
+
+    vim.api.nvim_create_autocmd('User', {
+      pattern = 'NeoCodeiumCompletionDisplayed',
+      callback = function()
+        require('cmp').abort()
+      end,
+    })
+
+    vim.keymap.set('i', '<A-e>', neocodeium.cycle_or_complete, { desc = '[A]i [C]ycle Completion' })
+    vim.keymap.set('i', '<A-f>', neocodeium.accept, { desc = '[A]i Accept Completion' })
+  end,
 }
