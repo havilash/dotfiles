@@ -64,7 +64,19 @@ if command -v starship &>/dev/null; then
 fi
 
 ## Rust
-[ -f ~/.cargo/env ] && source ~/.cargo/env
+if [ -f "~/.cargo/env" ]; then
+    source "~/.cargo/env"
+fi
+
+## Python UV
+if [ -f "$HOME/.local/bin/env" ]; then
+    source "$HOME/.local/bin/env"
+fi
+
+## Cargo
+if [ -f "$HOME/.cargo/env" ]; then
+    source "$HOME/.cargo/env"
+fi
 
 ## dotfiles
 function dotfiles {
@@ -104,3 +116,4 @@ fi
 # Source configuration files
 [ -f ~/.bashrc_aliases ] && source ~/.bashrc_aliases
 [ -f ~/bin/init.sh ] && source ~/bin/init.sh
+

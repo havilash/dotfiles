@@ -20,19 +20,14 @@ if [ -d "$HOME/.local/bin" ]; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
-# Cargo
-if [ -f "$HOME/.cargo/env" ]; then
-    . "$HOME/.cargo/env"
-fi
-
 # Tmuxifier
 if [ -d "$HOME/.tmuxifier/bin" ]; then
     PATH="$HOME/.tmuxifier/bin:$PATH"
 fi
 
-# fzf
+# Fzf
 if [[ -d $HOME/.fzf/bin ]]; then
-    export PATH=$HOME/.fzf/bin:$PATH
+    PATH=$HOME/.fzf/bin:$PATH
 fi
 
 # if running bash
@@ -42,3 +37,5 @@ if [ -n "$BASH_VERSION" ]; then
         . "$HOME/.bashrc"
     fi
 fi
+
+export PATH
