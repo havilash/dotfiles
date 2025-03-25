@@ -25,6 +25,7 @@ return {
   {
     'catgoose/nvim-colorizer.lua',
     event = 'BufReadPre',
+    opts = {},
     -- TODO: change mode to virtualtext
   },
 }
