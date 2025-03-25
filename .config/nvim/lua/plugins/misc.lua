@@ -22,4 +22,9 @@ return {
     },
     ft = { 'markdown', 'Avante' },
   },
+  {
+    'catgoose/nvim-colorizer.lua',
+    event = 'BufReadPre',
+    -- TODO: change mode to virtualtext
+  },
 }
