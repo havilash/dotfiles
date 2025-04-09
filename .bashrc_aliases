@@ -11,6 +11,7 @@ fi
 alias gcob='git branch | fzf | xargs git checkout'
 
 alias dotf=dotfiles
+alias lazydotf=lazygitdotfiles
 
 alias reload='source ~/.bashrc'
 

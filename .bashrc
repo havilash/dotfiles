@@ -89,6 +89,10 @@ if dotfiles status --porcelain | grep -qE '^(#| M)'; then
     dotfiles status --porcelain | awk '{ printf "  - %s\n", $0 }'
 fi
 
+lazygitdotfiles() {
+    lazygit --git-dir="$HOME/.dotfiles" --work-tree="$HOME" "$@"
+}
+
 # Utility
 ## Reload .bashrc
 alias reload='source ~/.bashrc'
