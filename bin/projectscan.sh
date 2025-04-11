@@ -51,10 +51,12 @@ _process_files() {
     # Use find to iterate through files and directories
     find "$base_path" -type f | while read -r file; do
         # Exclude files matching the given pattern
-        if [[ -n "$exclude_pattern" && "$file" =~ $exclude_pattern ]]; then
-            continue
-        fi
-
+        for pattern in "${EXCLUDE_PATTERNS[@]}"; do
+            if [[ "$file" == *"$pattern"* ]]; then
+                continue 2
+            fi
+        done
+        
         # Get relative path
         rel_path="${file#$base_path/}"
 
@@ -63,7 +65,7 @@ _process_files() {
             if [[ "$display_contents" == "true" ]]; then
                 echo "Contents:"
                 cat "$file"
-                echo "----------------------------------------"
+                echo "---"
             fi
         fi
     done
@@ -72,7 +74,7 @@ _process_files() {
 main() {
     DISPLAY_CONTENTS="false"
     EXCLUDE_PATTERN=""
-    PROJECT_PATH=""
+    PROJECT_PATH=()
 
     if [[ $# -eq 0 ]]; then
         _usage
@@ -98,7 +100,7 @@ main() {
             shift
             ;;
         -e | --exclude)
-            EXCLUDE_PATTERN="$2"
+            EXCLUDE_PATTERNS+=("$2")
             shift 2
             ;;
         *)
