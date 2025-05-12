@@ -7,53 +7,42 @@ local map = function(keys, action, mode)
   end)
 end
 
--- vim.keymap.set({ 'n', 'v' }, '<leader>t', vscode.action('workbench.action.terminal.toggleTerminal'))
--- vim.keymap.set({ 'n', 'v' }, '<leader>d', vscode.action('editor.action.showHover'))
--- vim.keymap.set({ 'n', 'v' }, '<leader>cn', vscode.action('notifications.clearAll'))
--- vim.keymap.set({ 'n', 'v' }, '<leader>pr', vscode.action('code-runner.run'))
-
--- LSP actions
+-- LSP
 map('gd', 'editor.action.revealDefinition')
-
-map('gr', 'references-view.findReferences')
-
 map('gI', 'editor.action.revealImplementation')
-
-map('<leader>D', 'editor.action.goToTypeDefinition')
-
-map('<leader>ds', 'workbench.action.showAllSymbols')
-
+map('gr', 'references-view.findReferences')
 map('<leader>rn', 'editor.action.rename')
-
-map('gD', 'editor.action.revealDeclaration')
-
--- General Keymaps
-map('<leader>q', 'workbench.actions.view.problems')
-
-map('<leader>sf', 'workbench.action.quickOpen')
-
-map('<leader>sc', 'workbench.action.showCommands')
-
-map('<leader>b', 'editor.debug.action.toggleBreakpoint')
-
-map('<leader>B', 'editor.debug.action.conditionalBreakpoint')
-
 map('<leader>ca', 'editor.action.quickFix')
 
-map('<leader>f', 'editor.action.formatDocument')
-
--- Navigation Keymaps
--- NOTE: May require additional configuration in VSCode
+-- Navigation
 map('<C-h>', 'workbench.action.navigateLeft')
-
+map('<C-j>', 'workbench.action.navigateDown')
+map('<C-k>', 'workbench.action.navigateUp')
 map('<C-l>', 'workbench.action.navigateRight')
 
-map('<C-k>', 'workbench.action.navigateUp')
+map('<C-Left>', 'workbench.action.decreaseViewWidth')
+map('<C-Right>', 'workbench.action.increaseViewWidth')
+map('<C-Up>', 'workbench.action.increaseViewHeight')
+map('<C-Down>', 'workbench.action.decreaseViewHeight')
 
-map('<C-j>', 'workbench.action.navigateDown')
-
--- Suggestion Navigation
--- NOTE: May require additional configuration in VSCode
 map('<C-p>', 'selectPrevSuggestion')
-
 map('<C-n>', 'selectNextSuggestion')
+
+-- Edit
+map('<leader>f', 'editor.action.formatDocument')
+
+-- Search
+map('<leader>sf', 'workbench.action.quickOpen')
+map('<leader>sg', 'workbench.action.findInFiles')
+map('<leader>ds', 'workbench.action.showAllSymbols')
+
+-- Panels
+map('\\', 'workbench.view.explorer')
+map('<leader>g', 'workbench.view.scm')
+map('<leader>x', 'workbench.view.extensions')
+map('<leader>t', 'workbench.action.terminal.toggleTerminal')
+map('<leader>q', 'workbench.actions.view.problems')
+
+-- Debug
+map('<leader>b', 'editor.debug.action.toggleBreakpoint')
+map('<leader>B', 'editor.debug.action.conditionalBreakpoint')
