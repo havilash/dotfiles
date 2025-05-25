@@ -56,6 +56,19 @@ fi
 if command -v fzf &>/dev/null; then
     export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!.git'"
     eval "$(fzf --bash)"
+
+    # _fzf_git_switch() {
+    #     [[ ${COMP_WORDS[1]} == switch ]] || return 1
+    #
+    #     local branch=$(
+    #         git branch 2>/dev/null | 
+    #         fzf --height=20%
+    #     )
+    #
+    #     [[ -n $branch ]] && COMPREPLY=("$branch")
+    # }
+    #
+    # complete -F _fzf_git_switch git
 fi
 
 ## Starship prompt
