@@ -30,9 +30,9 @@ vim.api.nvim_create_autocmd('FileType', {
   group = vim.api.nvim_create_augroup('custom-execute-lua', { clear = true }),
   pattern = 'lua',
   callback = function()
-    vim.keymap.set('n', '<space>xf', '<cmd>source %<CR>', { desc = 'E[X]ecute [F]ile', buffer = true })
-    vim.keymap.set('n', '<space>xx', '<cmd>:.lua<CR>', { desc = 'E[X]ecute [X] current line', buffer = true })
-    vim.keymap.set('v', '<space>xx', '<cmd>:lua<CR>', { desc = 'E[X]ecute [X] selected text', buffer = true })
+    vim.keymap.set('n', '<space>xf', '<CMD>source %<CR>', { desc = 'E[X]ecute [F]ile', buffer = true })
+    vim.keymap.set('n', '<space>xx', '<CMD>:.lua<CR>', { desc = 'E[X]ecute [X] current line', buffer = true })
+    vim.keymap.set('v', '<space>xx', ':lua<CR>', { desc = 'E[X]ecute [X] selected text', buffer = true })
   end,
 })
 
