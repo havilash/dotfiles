@@ -2,7 +2,9 @@
 
 # Description: Scan a project directory and display file paths and contents, excluding files listed in .gitignore
 
-_usage() {
+VERSION="1.1.1"
+
+print_usage() {
     echo "Usage: projectscan [OPTIONS] <path>
 
 Scan the project directory and display file paths and contents, excluding files listed in .gitignore.
@@ -12,116 +14,97 @@ Options:
   -v, --version             Show the version of this program.
   -g, --gitignore           Skip files ignored by .gitignore.
   -c, --contents            Display file contents along with file paths.
-  -e, --exclude <pattern>   Exclude files matching the given pattern."
+  -e, --exclude <pattern>   Exclude files matching the given grep-style pattern."
 }
 
-_version() {
+print_version() {
     echo "lsutil version $VERSION"
 }
 
-_load_gitignore() {
-    local gitignore_path="$1/.gitignore"
-    if [[ -f "$gitignore_path" ]]; then
-        gitignore_patterns=()
-        while IFS= read -r line; do
-            # Skip empty lines and comments
-            [[ -z "$line" || "$line" == \#* ]] && continue
-            gitignore_patterns+=("$line")
-        done <"$gitignore_path"
-    fi
+is_gitignored() {
+    git -C "$project_path" check-ignore -q "$1"
 }
 
-_is_ignored() {
-    local file="$1"
-    for pattern in "${gitignore_patterns[@]}"; do
-        if [[ "$file" == $pattern || "$file" == $pattern* || "$file" =~ $pattern ]]; then
-            return 0
-        fi
-    done
-    return 1
-}
-
-_process_files() {
+process_files() {
     local base_path="$1"
-    local display_contents="$2"
-    local exclude_pattern="$3"
+    local use_gitignore="$2"
+    local show_contents="$3"
+    local -n exclude_patterns_ref="$4"
 
-    _load_gitignore "$base_path"
-
-    # Use find to iterate through files and directories
     find "$base_path" -type f | while read -r file; do
-        # Exclude files matching the given pattern
-        for pattern in "${EXCLUDE_PATTERNS[@]}"; do
-            if [[ "$file" == *"$pattern"* ]]; then
+        local rel_path="${file#$base_path/}"
+
+        for pattern in "${exclude_patterns_ref[@]}"; do
+            if [[ "$rel_path" =~ $pattern ]]; then
                 continue 2
             fi
         done
-        
-        # Get relative path
-        rel_path="${file#$base_path/}"
 
-        if ! _is_ignored "$rel_path"; then
-            echo "Path: $rel_path"
-            if [[ "$display_contents" == "true" ]]; then
-                echo "Contents:"
-                cat "$file"
-                echo "---"
-            fi
+        if $use_gitignore && is_gitignored "$rel_path"; then
+            continue
+        fi
+
+        echo "Path: $rel_path"
+        if $show_contents; then
+            echo "Contents:"
+            cat "$file"
+            echo "---"
         fi
     done
 }
 
 main() {
-    DISPLAY_CONTENTS="false"
-    EXCLUDE_PATTERN=""
-    PROJECT_PATH=()
+    local show_contents=false
+    local use_gitignore=false
+    local -a exclude_patterns=()
+    local project_path=""
 
     if [[ $# -eq 0 ]]; then
-        _usage
+        print_usage
         exit 1
     fi
 
     while [[ $# -gt 0 ]]; do
         case "$1" in
         -h | --help)
-            _usage
+            print_usage
             exit 0
             ;;
         -v | --version)
-            _version
+            print_version
             exit 0
             ;;
         -c | --contents)
-            DISPLAY_CONTENTS="true"
+            show_contents=true
             shift
             ;;
         -g | --gitignore)
-            IGNORE="true"
+            use_gitignore=true
             shift
             ;;
         -e | --exclude)
-            EXCLUDE_PATTERNS+=("$2")
+            exclude_patterns+=("$2")
             shift 2
             ;;
         *)
-            PROJECT_PATH="$1"
+            project_path="$1"
             shift
             ;;
         esac
     done
 
-    if [[ -z "$PROJECT_PATH" ]]; then
+    if [[ -z "$project_path" ]]; then
         echo "Error: Missing project path."
-        _usage
+        print_usage
         exit 1
     fi
 
-    if [[ ! -d "$PROJECT_PATH" ]]; then
-        echo "Error: Path '$PROJECT_PATH' is not a valid directory."
+    if [[ ! -d "$project_path" ]]; then
+        echo "Error: Path '$project_path' is not a valid directory."
         exit 1
     fi
 
-    _process_files "$PROJECT_PATH" "$DISPLAY_CONTENTS" "$EXCLUDE_PATTERN"
+    process_files "$project_path" "$use_gitignore" "$show_contents" exclude_patterns
 }
 
 main "$@"
