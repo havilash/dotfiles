@@ -16,8 +16,6 @@ return {
       'hrsh7th/cmp-nvim-lsp',
     },
     config = function()
-      -- TODO: migrate to mason v2.0 properly
-      -- https://github.com/mason-org/mason-lspconfig.nvim/releases/tag/v2.0.0
       require 'plugins.lsp.config'
       require 'plugins.lsp.handlers'
     end,
