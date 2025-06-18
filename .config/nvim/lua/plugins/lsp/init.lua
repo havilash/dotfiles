@@ -5,8 +5,8 @@ return {
     enabled = not vim.g.vscode,
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for Neovim
-      { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
-      'williamboman/mason-lspconfig.nvim',
+      { 'mason-org/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
+      'mason-org/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
       -- Useful status updates for LSP.
@@ -16,6 +16,8 @@ return {
       'hrsh7th/cmp-nvim-lsp',
     },
     config = function()
+      -- TODO: migrate to mason v2.0 properly
+      -- https://github.com/mason-org/mason-lspconfig.nvim/releases/tag/v2.0.0
       require 'plugins.lsp.config'
       require 'plugins.lsp.handlers'
     end,
