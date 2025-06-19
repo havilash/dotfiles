@@ -24,6 +24,6 @@ vim.keymap.set('n', '<C-Right>', '<cmd>vertical resize +2<cr>', { desc = 'Increa
 vim.keymap.set('n', '<C-Left>', '<cmd>vertical resize -2<cr>', { desc = 'Decrease window width' })
 
 -- Workspace
-vim.keymap.set('n', '<leader>wb', function()
+vim.keymap.set('n', '<leader>c', function()
   vim.cmd('cd ' .. vim.fn.expand '%:p:h')
-end, { desc = '[W]orkspace to [B]uffer path' })
+end, { desc = '[C]wd to buffer path' })

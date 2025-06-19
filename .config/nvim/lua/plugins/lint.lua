@@ -2,19 +2,11 @@ return {
 
   { -- Linting
     'mfussenegger/nvim-lint',
-    enabled = not vim.g.vscode,
     event = { 'BufReadPre', 'BufNewFile' },
     config = function()
       local lint = require 'lint'
       lint.linters_by_ft = {
-        -- markdown = { 'markdownlint' },
-        -- lua = { 'stylua' },
-        -- javascript = { 'eslint' },
-        -- typescript = { 'eslint' },
-        -- javascriptreact = { 'eslint' },
-        -- typescriptreact = { 'eslint' },
-        -- svelte = { 'eslint' },
-        -- python = { 'pylint' },
+        markdown = { 'markdownlint' },
       }
 
       -- To allow other plugins to add linters to require('lint').linters_by_ft,
@@ -58,15 +50,11 @@ return {
           -- Only run the linter in buffers that you can modify in order to
           -- avoid superfluous noise, notably within the handy LSP pop-ups that
           -- describe the hovered symbol using Markdown.
-          if vim.opt_local.modifiable:get() then
+          if vim.bo.modifiable then
             lint.try_lint()
           end
         end,
       })
-
-      vim.keymap.set('n', '<leader>cl', function()
-        lint.try_lint()
-      end, { desc = '[C]ode [L]int current file' })
     end,
   },
 }

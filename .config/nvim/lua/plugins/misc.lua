@@ -1,5 +1,6 @@
 return {
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
+  -- TODO: See alternative NMAC427/guess-indent.nvim
   {
     'folke/todo-comments.nvim',
     enabled = not vim.g.vscode,
