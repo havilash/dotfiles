@@ -52,6 +52,7 @@ return { -- Autoformat
 
       csharp = { 'csharpier' },
       bash = { 'shfmt' },
+      markdown = { 'markdownlint' },
     },
   },
 }

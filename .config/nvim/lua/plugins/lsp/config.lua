@@ -8,7 +8,7 @@ local servers = require 'plugins.lsp.lang'
 require('mason').setup()
 
 local ensure_installed = vim.tbl_keys(servers)
-vim.list_extend(ensure_installed, { 'stylua', 'lua_ls' })
+vim.list_extend(ensure_installed, { 'stylua', 'lua_ls', 'markdownlint' })
 require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
 for server_name, server in pairs(servers) do

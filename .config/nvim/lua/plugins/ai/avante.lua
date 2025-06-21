@@ -30,7 +30,7 @@ return {
       -- 'ibhagwan/fzf-lua',
       'nvim-tree/nvim-web-devicons',
       'zbirenbaum/copilot.lua',
-      -- 'MeanderingProgrammer/render-markdown.nvim',
+      'MeanderingProgrammer/render-markdown.nvim',
       -- {
       --   'HakonHarnes/img-clip.nvim',
       --   event = 'VeryLazy',
