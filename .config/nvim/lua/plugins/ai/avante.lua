@@ -17,6 +17,9 @@ return {
     build = 'make',
     opts = {
       provider = 'copilot',
+      hints = {
+        enabled = false,
+      },
     },
     dependencies = {
       'nvim-treesitter/nvim-treesitter',

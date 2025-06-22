@@ -3,16 +3,6 @@ return { -- Useful plugin to show you pending keybinds.
   enabled = not vim.g.vscode,
   event = 'VimEnter', -- Sets the loading event to 'VimEnter'
 
-  keys = {
-    {
-      '<leader>?',
-      function()
-        require('which-key').show { global = false }
-      end,
-      desc = 'Show Keymaps',
-    },
-  },
-
   opts = {
     icons = {
       -- set icon mappings to true if you have a Nerd Font
@@ -53,12 +43,13 @@ return { -- Useful plugin to show you pending keybinds.
 
     -- Document existing key chains
     spec = {
-      { '<leader>a', group = '[A]i' },
+      { '<leader>g', group = '[G]it', mode = { 'n', 'v' } },
+      { '<leader>a', group = '[A]i', mode = { 'n' } },
       { '<leader>s', group = '[S]earch' },
-      { '<leader>t', group = '[T]oggle' },
+      { '<leader>l', group = '[L]SP' },
       { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
       { '<leader>x', group = 'E[X]ecute', mode = { 'n', 'v' } },
-      { '<leader>xt', group = 'E[X]ecute [T]est' },
+      { '<leader>t', group = '[T]est' },
     },
   },
 }
