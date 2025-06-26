@@ -19,6 +19,7 @@ return { -- Highlight, edit, and navigate code
       'vimdoc',
       'html',
       'css',
+      'scss',
       'typescript',
       'javascript',
     },
