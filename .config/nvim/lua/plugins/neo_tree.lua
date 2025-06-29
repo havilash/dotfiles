@@ -14,9 +14,6 @@ return {
   keys = {
     { '\\', ':Neotree reveal<CR>', desc = 'NeoTree reveal', silent = true },
   },
-  deactivate = function()
-    vim.cmd [[Neotree close]]
-  end,
   init = function()
     -- FIX: use `autocmd` for lazy-loading neo-tree instead of directly requiring it,
     -- because `cwd` is not set up properly.
