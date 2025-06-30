@@ -47,7 +47,7 @@ return { -- Useful plugin to show you pending keybinds.
       { '<leader>a', group = '[A]i', mode = { 'n' } },
       { '<leader>s', group = '[S]earch' },
       { '<leader>l', group = '[L]SP' },
-      { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+      { '<leader>h', group = '[H]arpoon', mode = { 'n', 'v' } },
       { '<leader>x', group = 'E[X]ecute', mode = { 'n', 'v' } },
       { '<leader>t', group = '[T]est' },
     },
