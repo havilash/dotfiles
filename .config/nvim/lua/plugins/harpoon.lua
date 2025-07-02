@@ -40,7 +40,7 @@ return {
         function()
           require('harpoon.ui').nav_file(i)
         end,
-        desc = '[H]arpoon to mark [' .. i .. ']',
+        desc = 'Harpoon to mark [' .. i .. ']',
       }
       table.insert(keys, key)
     end
