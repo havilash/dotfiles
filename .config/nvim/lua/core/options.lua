@@ -22,6 +22,9 @@ vim.g.icons = vim.g.have_nerd_font and {}
 -- NOTE: You can change these options as you wish!
 --  For more options, you can see `:help option-list`
 
+-- Conceal text, e.g. display [example](https://www.example.com) as example
+vim.opt.conceallevel = 0
+
 -- Make line numbers default
 vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
