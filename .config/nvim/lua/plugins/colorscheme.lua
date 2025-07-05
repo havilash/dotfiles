@@ -6,7 +6,6 @@ return {
   'navarasu/onedark.nvim',
   enabled = not vim.g.vscode,
   style = 'darker',
-  priority = 1000,
   init = function()
     vim.cmd.colorscheme 'onedark'
   end,

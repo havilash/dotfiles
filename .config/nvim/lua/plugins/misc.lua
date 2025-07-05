@@ -17,11 +17,21 @@ return {
     opts = {},
   },
   {
-    'catgoose/nvim-colorizer.lua',
+    'brenoprata10/nvim-highlight-colors',
     event = 'BufReadPre',
     opts = {},
-    -- TODO: change mode to virtualtext
   },
+  -- {
+  --   'folke/persistence.nvim',
+  --   event = 'BufReadPre',
+  --   opts = {},
+  -- },
+  -- {
+  --   'catgoose/nvim-colorizer.lua',
+  --   event = 'BufReadPre',
+  --   opts = {},
+  --   -- TODO: change mode to virtualtext
+  -- },
   -- {
   --   'OXY2DEV/markview.nvim',
   --   lazy = false,

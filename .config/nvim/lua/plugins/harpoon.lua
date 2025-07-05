@@ -4,18 +4,18 @@ return {
   keys = function()
     local keys = {
       {
-        '<leader>ha',
+        '<leader>m',
         function()
           require('harpoon.mark').add_file()
         end,
-        desc = '[H]arpoon [a]dd file',
+        desc = 'Harpoon [m]ark',
       },
       {
-        '<leader>hm',
+        '<leader>M',
         function()
           require('harpoon.ui').toggle_quick_menu()
         end,
-        desc = '[H]arpoon [m]enu',
+        desc = 'Harpoon [M]enu',
       },
 
       -- {

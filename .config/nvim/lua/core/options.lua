@@ -22,8 +22,10 @@ vim.g.icons = vim.g.have_nerd_font and {}
 -- NOTE: You can change these options as you wish!
 --  For more options, you can see `:help option-list`
 
+vim.opt.termguicolors = true
+
 -- Conceal text, e.g. display [example](https://www.example.com) as example
-vim.opt.conceallevel = 0
+vim.opt.conceallevel = 2
 
 -- Make line numbers default
 vim.opt.number = true
