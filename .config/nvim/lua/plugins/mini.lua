@@ -1,3 +1,4 @@
+local debounce = require 'telescope.debounce'
 return { -- Collection of various small independent plugins/modules
   'echasnovski/mini.nvim',
   config = function()
@@ -14,7 +15,18 @@ return { -- Collection of various small independent plugins/modules
     -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
     -- - sd'   - [S]urround [D]elete [']quotes
     -- - sr)'  - [S]urround [R]eplace [)] [']
-    require('mini.surround').setup()
+    require('mini.surround').setup {
+      -- TODO: look for better bind to allow [S]ubstitute usage
+      mapings = {
+        add = 'sa',
+        delete = 'sd',
+        find = 'sf',
+        find_left = 'sF',
+        highlight = 'sh',
+        replace = 'sr',
+        update_n_lines = 'sn',
+      },
+    }
 
     -- Simple and easy statusline.
     --  You could remove this setup call if you don't like it,

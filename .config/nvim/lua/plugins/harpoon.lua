@@ -31,7 +31,7 @@ return {
       --     require('harpoon.ui').nav_prev()
       --   end,
       --   desc = 'Go to previous mark',
-      -- },
+      -- ,
     }
 
     for i = 0, 9 do
