@@ -2,7 +2,9 @@ return {
   'epwalsh/obsidian.nvim',
   version = '*',
   lazy = true,
-  ft = 'markdown',
+  event = {
+    'BufReadPre ' .. vim.fn.expand '~' .. '/notes',
+  },
   dependencies = {
     'nvim-lua/plenary.nvim',
   },

@@ -24,9 +24,6 @@ vim.g.icons = vim.g.have_nerd_font and {}
 
 vim.opt.termguicolors = true
 
--- Conceal text, e.g. display [example](https://www.example.com) as example
-vim.opt.conceallevel = 2
-
 -- Make line numbers default
 vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
