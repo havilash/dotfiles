@@ -1,21 +1,13 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
+# bash interactive shell config
 
-# If not running interactively, exit immediately
-case $- in
-*i*) ;;
-*) return ;;
-esac
+[[ $- != *i* ]] && return
 
-# History settings
-HISTCONTROL=ignoreboth # Ignore duplicates and leading spaces
-HISTSIZE=1000          # Number of commands to remember in history
-HISTFILESIZE=2000      # Maximum size of the history file
-shopt -s histappend    # Append history instead of overwriting
-
-# Adjust window size automatically
+HISTCONTROL=ignoreboth
+HISTSIZE=1000
+HISTFILESIZE=2000
+shopt -s histappend
 shopt -s checkwinsize
 
-# Set the terminal prompt with color support if available
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
@@ -30,98 +22,77 @@ else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
 
-# Set the terminal title for xterm
 case "$TERM" in
 xterm* | rxvt*)
     PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
     ;;
 esac
 
-export EDITOR="nvim"
-
-# Tools
-## dircolors
-if [ -f "$HOME/.dircolors" ]; then
-    eval "$(dircolors ~/.dircolors)"
+if command -v dircolors &>/dev/null; then
+    eval "$(dircolors -b ~/.dircolors 2>/dev/null || dircolors -b)"
+    alias ls='ls --color=auto'
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
 fi
 
-## nvm
-if [ -d "$HOME/.nvm" ]; then
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # Load nvm
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # nvm bash completion
+alias gcob='git branch | fzf | xargs git checkout'
+alias dotf=dotfiles
+alias lazydotf=lazygitdotfiles
+alias reload='source ~/.bashrc'
+
+# nvm
+if [ -d "$NVM_DIR" ]; then
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 fi
 
-## fzf
+# fzf
 if command -v fzf &>/dev/null; then
     export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!.git'"
     eval "$(fzf --bash)"
-
-    # _fzf_git_switch() {
-    #     [[ ${COMP_WORDS[1]} == switch ]] || return 1
-    #
-    #     local branch=$(
-    #         git branch 2>/dev/null | 
-    #         fzf --height=20%
-    #     )
-    #
-    #     [[ -n $branch ]] && COMPREPLY=("$branch")
-    # }
-    #
-    # complete -F _fzf_git_switch git
 fi
 
-## Starship prompt
-if command -v starship &>/dev/null; then
-    eval "$(starship init bash)"
-fi
-
-## Rust
-if [ -f "~/.cargo/env" ]; then
-    source "~/.cargo/env"
-fi
-
-## Python UV
-if [ -f "$HOME/.local/bin/env" ]; then
-    source "$HOME/.local/bin/env"
-fi
-
-## Cargo
+# rust/cargo
 if [ -f "$HOME/.cargo/env" ]; then
     source "$HOME/.cargo/env"
 fi
 
-## dotfiles
+# python uv
+if [ -f "$HOME/.local/bin/env" ]; then
+    source "$HOME/.local/bin/env"
+fi
+
 function dotfiles {
     /usr/bin/git --git-dir="$HOME/.dotfiles/" --work-tree="$HOME" "$@"
 }
-dotfiles config --local status.showUntrackedFiles no
 
-if dotfiles status --porcelain | grep -qE '^(#| M)'; then
-    echo "Warning: Your dotfiles have changes:"
-    dotfiles status --porcelain | awk '{ printf "  - %s\n", $0 }'
-fi
-
-lazygitdotfiles() {
+function lazygitdotfiles {
     lazygit --git-dir="$HOME/.dotfiles" --work-tree="$HOME" "$@"
 }
 
-# Utility
-## Reload .bashrc
-alias reload='source ~/.bashrc'
+# if command -v dotfiles &>/dev/null; then
+#     dotfiles config --local status.showUntrackedFiles no
+#
+#     if dotfiles status --porcelain 2>/dev/null | grep -qE '^(#| M)'; then
+#         echo "Warning: Your dotfiles have changes:"
+#         dotfiles status --porcelain | awk '{ printf "  - %s\n", $0 }'
+#     fi
+# fi
 
-## Windows home directory shortcut (for WSL with dynamic Windows user)
-WIN_USER=$(whoami.exe | tr -d '\r' | cut -d'\' -f2)
-WIN_HOME="/mnt/c/Users/$WIN_USER"
-
-if [ -d $WIN_HOME ]; then
-    export WIN_HOME
-    function cdwin {
-        cd $WIN_HOME
-    }
+# wsl windows home
+if command -v whoami.exe &>/dev/null; then
+    WIN_USER=$(whoami.exe 2>/dev/null | tr -d '\r' | cut -d'\' -f2)
+    WIN_HOME="/mnt/c/Users/$WIN_USER"
+    
+    if [ -d "$WIN_HOME" ]; then
+        export WIN_HOME
+        function cdwin {
+            cd "$WIN_HOME"
+        }
+    fi
 fi
 
-# Programmable Completion
 if ! shopt -oq posix; then
     if [ -f /usr/share/bash-completion/bash_completion ]; then
         . /usr/share/bash-completion/bash_completion
@@ -130,7 +101,5 @@ if ! shopt -oq posix; then
     fi
 fi
 
-# Source configuration files
 [ -f ~/.bashrc_aliases ] && source ~/.bashrc_aliases
 [ -f ~/bin/init.sh ] && source ~/bin/init.sh
-
