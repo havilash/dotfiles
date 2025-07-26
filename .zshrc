@@ -68,5 +68,4 @@ if command -v whoami.exe &>/dev/null; then
     fi
 fi
 
-[ -f ~/.zshrc_aliases ] && source ~/.zshrc_aliases
 [ -f ~/bin/init.sh ] && source ~/bin/init.sh

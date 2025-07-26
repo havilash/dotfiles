@@ -101,5 +101,4 @@ if ! shopt -oq posix; then
     fi
 fi
 
-[ -f ~/.bashrc_aliases ] && source ~/.bashrc_aliases
 [ -f ~/bin/init.sh ] && source ~/bin/init.sh
