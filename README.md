@@ -11,7 +11,7 @@ This repository uses a **bare Git repository** to manage dotfiles. For details, 
 Run the following command to clone your dotfiles repository as a bare Git repository:
 
 ```bash
-git clone --bare <git-repo-url> $HOME/.dotfiles
+git clone --bare <git-repo-url> $HOME/.git
 ```
 
 ### Configure `.bashrc`
@@ -20,7 +20,7 @@ Add the following to your `.bashrc` or `.zshrc`:
 
 ```bash
 function dotfiles {
-   /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME "$@"
+   /usr/bin/git --git-dir=$HOME/.git --work-tree=$HOME "$@"
 }
 dotfiles config --local status.showUntrackedFiles no
 ```
@@ -56,9 +56,9 @@ dotfiles checkout
 To set up your dotfiles on a new system, use this script:
 
 ```bash
-git clone --bare <git-repo-url> $HOME/.dotfiles
+git clone --bare <git-repo-url> $HOME/.git
 function dotfiles {
-   /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME "$@"
+   /usr/bin/git --git-dir=$HOME/.git --work-tree=$HOME "$@"
 }
 mkdir -p .config-backup
 dotfiles checkout

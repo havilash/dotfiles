@@ -46,11 +46,11 @@ fi
 [ -f "$HOME/.local/bin/env" ] && source "$HOME/.local/bin/env"
 
 function dotfiles {
-    /usr/bin/git --git-dir="$HOME/.dotfiles/" --work-tree="$HOME" "$@"
+    /usr/bin/git --git-dir="$HOME/.git" --work-tree="$HOME" "$@"
 }
 
 function lazygitdotfiles {
-    lazygit --git-dir="$HOME/.dotfiles" --work-tree="$HOME" "$@"
+    lazygit --git-dir="$HOME/.git" --work-tree="$HOME" "$@"
 }
 
 # if command -v dotfiles &>/dev/null; then
