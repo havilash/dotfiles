@@ -1,4 +1,4 @@
-# bash interactive shell config
+#!/bin/bash
 
 [[ $- != *i* ]] && return
 
@@ -100,5 +100,3 @@ if ! shopt -oq posix; then
         . /etc/bash_completion
     fi
 fi
-
-[ -f ~/bin/init.sh ] && source ~/bin/init.sh

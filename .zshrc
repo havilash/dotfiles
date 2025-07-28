@@ -1,3 +1,7 @@
+#!/bin/zsh
+
+[[ $- != *i* ]] && return
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -10,6 +14,7 @@ source /usr/share/cachyos-zsh-config/cachyos-config.zsh
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+HISTCONTROL=ignoreboth
 HISTSIZE=1000
 SAVEHIST=2000
 
@@ -67,5 +72,3 @@ if command -v whoami.exe &>/dev/null; then
         function cdwin { cd "$WIN_HOME" }
     fi
 fi
-
-[ -f ~/bin/init.sh ] && source ~/bin/init.sh

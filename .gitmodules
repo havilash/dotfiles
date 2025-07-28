@@ -1,0 +1,3 @@
+[submodule ".local/bin/cb"]
+	path = .local/bin/cb
+	url = git@github.com:havilash/cb.git
