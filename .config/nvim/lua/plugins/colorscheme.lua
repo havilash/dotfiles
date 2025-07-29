@@ -3,10 +3,10 @@ return {
   -- 'folke/tokyonight.nvim',
   -- 'catppuccin/nvim',
   -- name = 'catppuccin',
-  'navarasu/onedark.nvim',
+  -- 'navarasu/onedark.nvim',
+  'AlexvZyl/nordic.nvim',
   enabled = not vim.g.vscode,
-  style = 'darker',
   init = function()
-    vim.cmd.colorscheme 'onedark'
+    vim.cmd.colorscheme 'nordic'
   end,
 }
