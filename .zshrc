@@ -44,11 +44,11 @@ fi
 [ -f "$HOME/.local/bin/env" ] && source "$HOME/.local/bin/env"
 
 function .git {
-    /usr/bin/git --git-dir="$HOME/.git" --work-tree="$HOME" "$@"
+    /usr/bin/git --git-dir="$HOME/.dotfiles" --work-tree="$HOME" "$@"
 }
 
 function .lazygit {
-    lazygit --git-dir="$HOME/.git" --work-tree="$HOME" "$@"
+    lazygit --git-dir="$HOME/.dotfiles" --work-tree="$HOME" "$@"
 }
 
 # wsl windows home

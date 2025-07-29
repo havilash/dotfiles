@@ -11,13 +11,13 @@ This repository uses a **bare Git repository** to manage dotfiles. For details, 
 Run the following command to clone your dotfiles repository as a bare Git repository:
 
 ```bash
-git clone --bare <git-repo-url> $HOME/.git
+git clone --bare <git-repo-url> $HOME/.dotfiles
 ```
 
 Optional: Run the following command to ignore all files.
 
 ```bash
-echo '*' >> $HOME/.git/info/exclude
+echo '*' >> $HOME/.dotfiles/info/exclude
 ```
 
 ### Configure `.bashrc`
@@ -26,7 +26,7 @@ Add the following to your `.bashrc` or `.zshrc`:
 
 ```bash
 function .git {
-   /usr/bin/git --git-dir=$HOME/.git --work-tree=$HOME "$@"
+   /usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME "$@"
 }
 .git config --local status.showUntrackedFiles no
 ```
@@ -62,10 +62,10 @@ xargs -I{} mv {} .config-backup/{}
 To set up your dotfiles on a new system, use this script:
 
 ```bash
-git clone --bare <git-repo-url> $HOME/.git
-echo '*' >> $HOME/.git/info/exclude
+git clone --bare <git-repo-url> $HOME/.dotfiles
+echo '*' >> $HOME/.dotfiles/info/exclude
 function .git {
-   /usr/bin/git --git-dir=$HOME/.git --work-tree=$HOME "$@"
+   /usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME "$@"
 }
 mkdir -p .config-backup
 .git checkout
