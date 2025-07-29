@@ -37,8 +37,6 @@ if command -v dircolors &>/dev/null; then
 fi
 
 alias gcob='git branch | fzf | xargs git checkout'
-alias dotf=dotfiles
-alias lazydotf=lazygitdotfiles
 alias reload='source ~/.bashrc'
 
 # nvm
@@ -63,22 +61,13 @@ if [ -f "$HOME/.local/bin/env" ]; then
     source "$HOME/.local/bin/env"
 fi
 
-function dotfiles {
+function .git {
     /usr/bin/git --git-dir="$HOME/.git" --work-tree="$HOME" "$@"
 }
 
-function lazygitdotfiles {
+function .lazygit {
     lazygit --git-dir="$HOME/.git" --work-tree="$HOME" "$@"
 }
-
-# if command -v dotfiles &>/dev/null; then
-#     dotfiles config --local status.showUntrackedFiles no
-#
-#     if dotfiles status --porcelain 2>/dev/null | grep -qE '^(#| M)'; then
-#         echo "Warning: Your dotfiles have changes:"
-#         dotfiles status --porcelain | awk '{ printf "  - %s\n", $0 }'
-#     fi
-# fi
 
 # wsl windows home
 if command -v whoami.exe &>/dev/null; then
