@@ -19,8 +19,6 @@ HISTSIZE=1000
 SAVEHIST=2000
 
 alias gcob='git branch | fzf | xargs git checkout'
-alias dotf=dotfiles
-alias lazydotf=lazygitdotfiles
 alias reload='source ~/.zshrc'
 
 # nvm
@@ -45,22 +43,13 @@ fi
 # python uv
 [ -f "$HOME/.local/bin/env" ] && source "$HOME/.local/bin/env"
 
-function dotfiles {
+function .git {
     /usr/bin/git --git-dir="$HOME/.git" --work-tree="$HOME" "$@"
 }
 
-function lazygitdotfiles {
+function .lazygit {
     lazygit --git-dir="$HOME/.git" --work-tree="$HOME" "$@"
 }
-
-# if command -v dotfiles &>/dev/null; then
-#     dotfiles config --local status.showUntrackedFiles no
-#
-#     if dotfiles status --porcelain 2>/dev/null | grep -qE '^(#| M)'; then
-#         echo "Warning: Your dotfiles have changes:"
-#         dotfiles status --porcelain | awk '{ printf "  - %s\n", $0 }'
-#     fi
-# fi
 
 # wsl windows home
 if command -v whoami.exe &>/dev/null; then
