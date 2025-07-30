@@ -317,7 +317,6 @@ binde = $mainMod SHIFT, Left, resizeactive, -30 0
 binde = $mainMod SHIFT, Up, resizeactive, 0 -30
 binde = $mainMod SHIFT, Down, resizeactive, 0 30
 
-
 # Clipboard
 bind = SUPER, V, exec, cliphist list | tofi -c ~/.config/tofi/configV | cliphist decode | wl-copy
 
