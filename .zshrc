@@ -44,7 +44,7 @@ fi
 [ -f "$HOME/.local/bin/env" ] && source "$HOME/.local/bin/env"
 
 function .git {
-    /usr/bin/git --git-dir="$HOME/.dotfiles" --work-tree="$HOME" "$@"
+    git --git-dir="$HOME/.dotfiles" --work-tree="$HOME" "$@"
 }
 
 function .lazygit {

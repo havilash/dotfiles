@@ -62,7 +62,7 @@ if [ -f "$HOME/.local/bin/env" ]; then
 fi
 
 function .git {
-    /usr/bin/git --git-dir="$HOME/.dotfiles" --work-tree="$HOME" "$@"
+    git --git-dir="$HOME/.dotfiles" --work-tree="$HOME" "$@"
 }
 
 function .lazygit {

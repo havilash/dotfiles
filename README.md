@@ -26,7 +26,7 @@ Add the following to your `.bashrc` or `.zshrc`:
 
 ```bash
 function .git {
-   /usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME "$@"
+   git --git-dir=$HOME/.dotfiles --work-tree=$HOME "$@"
 }
 .git config --local status.showUntrackedFiles no
 ```
@@ -65,7 +65,7 @@ To set up your dotfiles on a new system, use this script:
 git clone --bare <git-repo-url> $HOME/.dotfiles
 echo '*' >> $HOME/.dotfiles/info/exclude
 function .git {
-   /usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME "$@"
+   git --git-dir=$HOME/.dotfiles --work-tree=$HOME "$@"
 }
 mkdir -p .config-backup
 .git checkout
