@@ -11,6 +11,7 @@ M.html = {}
 M.cssls = {}
 M.css_variables = {}
 M.vue_ls = {}
+M.hyprls = {}
 
 M.lua_ls = require 'plugins.lsp.lang.lua'
 M.ts_ls = require 'plugins.lsp.lang.ts'
