@@ -2,7 +2,7 @@
 
 export EDITOR="nvim"
 export BROWSER="cachy-browser"
-export TERM="alacritty"
+export TERM="kitty"
 export QT_QPA_PLATFORMTHEME="qt5ct"
 
 if [ -d "$HOME/.local/bin" ]; then
