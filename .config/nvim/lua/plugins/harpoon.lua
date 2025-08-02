@@ -1,0 +1,55 @@
+return {
+  --   'ThePrimeagen/harpoon',
+  --   version = '*',
+  --   keys = function()
+  --     local keys = {
+  --       {
+  --         '<leader>m',
+  --         function()
+  --           require('harpoon.mark').add_file()
+  --         end,
+  --         desc = 'Harpoon [m]ark',
+  --       },
+  --       {
+  --         '<leader>M',
+  --         function()
+  --           require('harpoon.ui').toggle_quick_menu()
+  --         end,
+  --         desc = 'Harpoon [M]enu',
+  --       },
+  --
+  --       -- {
+  --       --   '<leader>]',
+  --       --   function()
+  --       --     require('harpoon.ui').nav_next()
+  --       --   end,
+  --       --   desc = 'Go to next mark',
+  --       -- },
+  --       -- {
+  --       --   '<leader>[',
+  --       --   function()
+  --       --     require('harpoon.ui').nav_prev()
+  --       --   end,
+  --       --   desc = 'Go to previous mark',
+  --       -- ,
+  --     }
+  --
+  --     for i = 0, 9 do
+  --       local key = {
+  --         '<leader>' .. i,
+  --         function()
+  --           require('harpoon.ui').nav_file(i)
+  --         end,
+  --         desc = 'Harpoon to mark [' .. i .. ']',
+  --       }
+  --       table.insert(keys, key)
+  --     end
+  --
+  --     return keys
+  --   end,
+  --   opts = {
+  --     menu = {
+  --       width = 60,
+  --     },
+  --   },
+}
