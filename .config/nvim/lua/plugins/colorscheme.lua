@@ -4,9 +4,9 @@ return {
   -- 'catppuccin/nvim',
   -- name = 'catppuccin',
   -- 'navarasu/onedark.nvim',
-  'AlexvZyl/nordic.nvim',
-  enabled = not vim.g.vscode,
-  init = function()
-    vim.cmd.colorscheme 'nordic'
-  end,
+  -- 'AlexvZyl/nordic.nvim',
+  -- enabled = not vim.g.vscode,
+  -- init = function()
+  --   vim.cmd.colorscheme 'nordic'
+  -- end,
 }
