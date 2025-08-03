@@ -1,0 +1,43 @@
+# -----------------------------------------------------
+# CUSTOMIZATION
+# -----------------------------------------------------
+
+# -----------------------------------------------------
+# general
+# -----------------------------------------------------
+
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt appendhistory
+
+# -----------------------------------------------------
+# oh-my-zsh
+# -----------------------------------------------------
+
+# TODO: look through these plugins
+plugins=(
+    git
+    sudo
+    web-search
+    archlinux
+    # zsh-autosuggestions
+    # zsh-syntax-highlighting
+    # fast-syntax-highlighting
+    copyfile
+    copybuffer
+    dirhistory
+)
+
+ZSH_THEME=robbyrussell
+
+# Set-up oh-my-zsh
+source $ZSH/oh-my-zsh.sh
+
+# -----------------------------------------------------
+# fzf
+# -----------------------------------------------------
+
+export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!.git'"
+eval "$(fzf --zsh)"
+
