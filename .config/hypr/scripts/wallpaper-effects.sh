@@ -12,7 +12,7 @@ ml4w_cache_folder="$HOME/.cache/ml4w/hyprland-dotfiles"
 cache_file="$ml4w_cache_folder/current_wallpaper"
 
 if [ $1 == "reload" ]; then
-    # Releod wallpaper with current effect
+    # Reload wallpaper with current effect
     waypaper --wallpaper $(cat $cache_file)
 else
     # Open rofi to select the Hyprshade filter for toggle
