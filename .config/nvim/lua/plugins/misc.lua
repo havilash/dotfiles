@@ -30,9 +30,10 @@ return {
   {
     'j-hui/fidget.nvim',
     opts = {
-      notificaiton = {
+      notification = {
         window = {
           winblend = 0,
+          relative = 'editor',
         },
       },
     },

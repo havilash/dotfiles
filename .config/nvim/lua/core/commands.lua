@@ -13,14 +13,14 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 -- Autocommand: Close help and man buffers with 'q'
-vim.api.nvim_create_autocmd('FileType', {
-  group = vim.api.nvim_create_augroup('custom-help-close', { clear = true }),
-  pattern = { 'help', 'man' },
-  desc = 'Close buffer with q in help and man',
-  callback = function()
-    vim.api.nvim_buf_set_keymap(0, 'n', 'q', '<cmd>quit<cr>', { noremap = true, silent = true })
-  end,
-})
+-- vim.api.nvim_create_autocmd('FileType', {
+--   group = vim.api.nvim_create_augroup('custom-help-close', { clear = true }),
+--   pattern = { 'help', 'man' },
+--   desc = 'Close buffer with q in help and man',
+--   callback = function()
+--     vim.api.nvim_buf_set_keymap(0, 'n', 'q', '<cmd>quit<cr>', { noremap = true, silent = true })
+--   end,
+-- })
 
 -- Autocommand: Auto save
 -- vim.api.nvim_create_autocmd({ 'BufLeave', 'FocusLost', 'VimLeavePre' }, {
