@@ -37,6 +37,7 @@ ZSH_THEME=robbyrussell
 
 # Set-up oh-my-zsh
 source $ZSH/oh-my-zsh.sh
+bindkey -v
 
 # -----------------------------------------------------
 # fzf
