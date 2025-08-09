@@ -4,14 +4,14 @@ return {
     'javascriptreact',
     'typescript',
     'typescriptreact',
-    'vue',
+    -- 'vue',
   },
   init_options = {
     plugins = {
       {
         name = '@vue/typescript-plugin',
-        location = vim.fn.stdpath 'data' .. '/mason/packages/vue-language-server/node_modules/@vue/language-server',
-        languages = { 'vue' },
+        location = vim.fn.expand '$MASON/packages' .. '/vue-language-server' .. '/node_modules/@vue/language-server',
+        -- languages = { 'vue' },
       },
     },
   },

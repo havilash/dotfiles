@@ -1,4 +1,5 @@
 return {
+  --     'stevearc/dressing.nvim',
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
   -- TODO: See alternative NMAC427/guess-indent.nvim
   {
@@ -19,6 +20,11 @@ return {
   {
     'brenoprata10/nvim-highlight-colors',
     event = 'BufReadPre',
+    opts = {},
+  },
+  {
+    'chentoast/marks.nvim',
+    event = 'VeryLazy',
     opts = {},
   },
   -- {

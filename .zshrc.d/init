@@ -9,5 +9,6 @@ export EDITOR=nvim
 export ZSH=~/.oh-my-zsh
 export PATH=$PATH:~/.cargo/bin/
 export PATH=$PATH:~/.local/bin/
+export PATH=$PATH:~/.local/bin/cb/
 export PATH=$PATH:~/.local/share/bob/nvim-bin/
-
+export PATH=$PATH:~/.fzf/bin
