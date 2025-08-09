@@ -27,26 +27,20 @@ return {
     event = 'VeryLazy',
     opts = {},
   },
+  {
+    'j-hui/fidget.nvim',
+    opts = {
+      notificaiton = {
+        window = {
+          winblend = 0,
+        },
+      },
+    },
+  },
+
   -- {
   --   'folke/persistence.nvim',
   --   event = 'BufReadPre',
-  --   opts = {},
-  -- },
-  -- {
-  --   'catgoose/nvim-colorizer.lua',
-  --   event = 'BufReadPre',
-  --   opts = {},
-  --   -- TODO: change mode to virtualtext
-  -- },
-  -- {
-  --   'OXY2DEV/markview.nvim',
-  --   lazy = false,
-  -- },
-  -- {
-  --   'MeanderingProgrammer/render-markdown.nvim',
-  --   -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
-  --   -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
-  --   dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
   --   opts = {},
   -- },
 }
