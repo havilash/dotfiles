@@ -8,10 +8,3 @@
 
 alias ls='eza -a --icons=always'
 
-# -----------------------------------------------------
-# dotfiles
-# -----------------------------------------------------
-
-alias .git='git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
-alias .lazygit='lazygit --git-dir="$HOME/.dotfiles" --work-tree="$HOME"'
-
