@@ -12,9 +12,9 @@ M.cssls = {}
 M.css_variables = {}
 M.hyprls = {}
 M.vue_ls = {}
+M.jsonls = {}
 
 M.vtsls = require 'plugins.lsp.lang.vts'
 M.lua_ls = require 'plugins.lsp.lang.lua'
--- M.ts_ls = require 'plugins.lsp.lang.ts'
 
 return M
