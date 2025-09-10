@@ -54,6 +54,8 @@ return { -- Autoformat
       bash = { 'shfmt' },
       -- markdown = { 'markdownlint' },
       markdown = { 'prettierd', 'prettier', stop_after_first = true },
+
+      sql = { 'sql_formatter' },
     },
   },
 }
