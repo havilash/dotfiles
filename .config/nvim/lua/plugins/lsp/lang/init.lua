@@ -13,6 +13,7 @@ M.css_variables = {}
 M.hyprls = {}
 M.vue_ls = {}
 M.jsonls = {}
+M.sqls = {}
 
 M.vtsls = require 'plugins.lsp.lang.vts'
 M.lua_ls = require 'plugins.lsp.lang.lua'
