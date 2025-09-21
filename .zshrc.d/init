@@ -6,9 +6,14 @@
 # Exports
 # -----------------------------------------------------
 export EDITOR=nvim
+export ANDROID_HOME=$HOME/android-sdk
+export JAVA_HOME=/usr/lib/jvm/java-25-openjdk
 export ZSH=~/.oh-my-zsh
+
 export PATH=$PATH:~/.cargo/bin/
 export PATH=$PATH:~/.local/bin/
 export PATH=$PATH:~/.local/bin/cb/
 export PATH=$PATH:~/.local/share/bob/nvim-bin/
 export PATH=$PATH:~/.fzf/bin
+export PATH=$PATH:~/flutter/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
