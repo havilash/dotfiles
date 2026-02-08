@@ -1,3 +1,4 @@
+#!/bin/zsh
 # -----------------------------------------------------
 # ALIASES
 # -----------------------------------------------------
@@ -7,4 +8,5 @@
 # -----------------------------------------------------
 
 alias ls='eza -a --icons=always'
-
+alias rm='echo "rm is disabled, use saferm or srm instead."'
+alias srm='saferm'

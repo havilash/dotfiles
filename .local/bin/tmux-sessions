@@ -1,0 +1,61 @@
+#!/bin/bash
+
+print_usage() {
+  echo "Usage: tmux-sessions [OPTIONS] <dir1> [dir2 ...]
+
+Tmux sessions
+
+Options:
+  -h, --help                Show this help message and exit."
+}
+
+new_session() {
+  local name="$1"
+  local path="$2"
+
+  tmux new-session -d -s "$name" -c "$path" -n 'main'
+
+  tmux send-keys -t "${name}:main" 'nvim' C-m
+  tmux new-window -d -t "$name" -n 'run'
+}
+
+main() {
+  local -a dirs=()
+
+  if [[ $# -eq 0 ]]; then
+    print_usage
+    exit 1
+  fi
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+    -h | --help)
+      print_usage
+      exit 0
+      ;;
+    *)
+      dirs+=("$1")
+      shift
+      ;;
+    esac
+  done
+
+  if [[ ${#dirs[@]} -eq 0 ]]; then
+    echo "Error: No dirs specified."
+    print_usage
+    exit 1
+  fi
+
+  local selected
+
+  selected=$(find "${dirs[@]}" -mindepth 1 -maxdepth 1 -type d | sed "s|$HOME|~|" | fzf)
+  [[ ! $selected ]] && exit 1
+
+  if ! tmux has-session -t "$selected"; then
+    new_session "$selected" "$selected"
+  fi
+
+  tmux switch-client -t "$selected"
+}
+
+main "$@"

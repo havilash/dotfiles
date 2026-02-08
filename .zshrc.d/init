@@ -1,3 +1,4 @@
+#!/bin/zsh
 # -----------------------------------------------------
 # INIT
 # -----------------------------------------------------
@@ -9,6 +10,7 @@ export EDITOR=nvim
 export ANDROID_HOME=$HOME/android-sdk
 export JAVA_HOME=/usr/lib/jvm/java-25-openjdk
 export ZSH=~/.oh-my-zsh
+fpath+=($HOME/.zsh/pure)
 
 export PATH=$PATH:~/.cargo/bin/
 export PATH=$PATH:~/.local/bin/
