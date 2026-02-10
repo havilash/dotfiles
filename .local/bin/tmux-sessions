@@ -1,5 +1,10 @@
 #!/bin/bash
 
+PATHS=(
+  "$HOME/projects"
+  "$HOME/projects/infravista/"
+)
+
 print_usage() {
   echo "Usage: tmux-sessions [OPTIONS] <dir1> [dir2 ...]
 
@@ -14,18 +19,12 @@ new_session() {
   local path="$2"
 
   tmux new-session -d -s "$name" -c "$path" -n 'main'
-
   tmux send-keys -t "${name}:main" 'nvim' C-m
-  tmux new-window -d -t "$name" -n 'run'
+  tmux new-window -d -t "$name" -n 'run' -c "$path"
 }
 
 main() {
   local -a dirs=()
-
-  if [[ $# -eq 0 ]]; then
-    print_usage
-    exit 1
-  fi
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -41,21 +40,23 @@ main() {
   done
 
   if [[ ${#dirs[@]} -eq 0 ]]; then
-    echo "Error: No dirs specified."
-    print_usage
-    exit 1
+    dirs=("${PATHS[@]}")
   fi
 
   local selected
 
-  selected=$(find "${dirs[@]}" -mindepth 1 -maxdepth 1 -type d | sed "s|$HOME|~|" | fzf)
+  selected=$(find "${dirs[@]}" -mindepth 1 -maxdepth 1 -type d | sed "s|^$HOME|~|" | fzf)
   [[ ! $selected ]] && exit 1
 
   if ! tmux has-session -t "$selected"; then
-    new_session "$selected" "$selected"
+    new_session "$selected" "${selected//\~/$HOME}"
   fi
 
-  tmux switch-client -t "$selected"
+  if [[ -n $TMUX ]]; then
+    tmux switch-client -t "$selected"
+  else
+    tmux attach-session -t "$selected"
+  fi
 }
 
 main "$@"
