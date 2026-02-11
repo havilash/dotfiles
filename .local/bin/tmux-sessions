@@ -1,9 +1,13 @@
 #!/bin/bash
 
 PATHS=(
-  "$HOME/projects"
-  "$HOME/projects/infravista/"
+  "$HOME/projects/"*
+  "$HOME/projects/infravista/"*
+  "$HOME/.dotfiles"
+  "$HOME/.dotfiles/.config/nvim"
 )
+
+TMUX_TEMPLATES_PATH="$HOME/.tmux/templates"
 
 print_usage() {
   echo "Usage: tmux-sessions [OPTIONS] <dir1> [dir2 ...]
@@ -18,9 +22,14 @@ new_session() {
   local name="$1"
   local path="$2"
 
-  tmux new-session -d -s "$name" -c "$path" -n 'main'
-  tmux send-keys -t "${name}:main" 'nvim' C-m
-  tmux new-window -d -t "$name" -n 'run' -c "$path"
+  local template_file="$TMUX_TEMPLATES_PATH/$name"
+
+  if [[ -f "$template_file" ]]; then
+    "$template_file" "$name" "$path"
+  else
+    cp "$TMUX_TEMPLATES_PATH/default" "$template_file"
+    "$template_file" "$name" "$path"
+  fi
 }
 
 main() {
@@ -44,18 +53,20 @@ main() {
   fi
 
   local selected
-
-  selected=$(find "${dirs[@]}" -mindepth 1 -maxdepth 1 -type d | sed "s|^$HOME|~|" | fzf)
+  selected=$(printf "%s\n" "${dirs[@]}" | sed "s|^$HOME|~|" | fzf)
   [[ ! $selected ]] && exit 1
 
-  if ! tmux has-session -t "$selected"; then
-    new_session "$selected" "${selected//\~/$HOME}"
+  local selected_name
+  selected_name=$(echo "$selected" | sed "s|^~/||" | tr '.' '_')
+
+  if ! tmux has-session -t "$selected_name"; then
+    new_session "$selected_name" "${selected//\~/$HOME}"
   fi
 
   if [[ -n $TMUX ]]; then
-    tmux switch-client -t "$selected"
+    tmux switch-client -t "$selected_name"
   else
-    tmux attach-session -t "$selected"
+    tmux attach-session -t "$selected_name"
   fi
 }
 
