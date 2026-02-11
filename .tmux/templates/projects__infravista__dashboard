@@ -1,0 +1,21 @@
+#!/bin/bash
+
+name="$1"
+path="$2"
+
+tmux new-session -d -s "$name" -c "$path" -n 'main'
+tmux send-keys -t "${name}:main" 'nvim' C-m
+tmux new-window -d -t "$name" -n 'run' -c "$path"
+
+tmux split-window -v -t "${name}:run" -c "$path"
+tmux split-window -v -t "${name}:run.1" -c "$path"
+tmux split-window -v -t "${name}:run.2" -c "$path"
+
+tmux select-layout -t "${name}:run" main-vertical
+
+tmux send-keys -t "${name}:run.0" '' C-m
+tmux send-keys -t "${name}:run.1" 'cd app; npm run dev' C-m
+tmux send-keys -t "${name}:run.2" 'cd server; npm run dev' C-m
+tmux send-keys -t "${name}:run.3" 'cd infravista-common; npm run build:watch' C-m
+
+tmux select-window -t "$name:main"

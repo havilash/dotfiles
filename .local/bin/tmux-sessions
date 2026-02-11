@@ -5,6 +5,7 @@ PATHS=(
   "$HOME/projects/infravista/"*
   "$HOME/.dotfiles"
   "$HOME/.dotfiles/.config/nvim"
+  "$HOME/.dotfiles/.tmux/templates"
 )
 
 TMUX_TEMPLATES_PATH="$HOME/.tmux/templates"
@@ -22,11 +23,16 @@ new_session() {
   local name="$1"
   local path="$2"
 
-  local template_file="$TMUX_TEMPLATES_PATH/$name"
+  local sanitized_name
+  sanitized_name=$(echo "$name" | sed -E 's/^(~\/|\/)|\.//g' | sed 's/\//__/g')
+
+  local template_file
+  template_file="$TMUX_TEMPLATES_PATH/$sanitized_name"
 
   if [[ -f "$template_file" ]]; then
     "$template_file" "$name" "$path"
   else
+    mkdir -p "$(dirname "$template_file")"
     cp "$TMUX_TEMPLATES_PATH/default" "$template_file"
     "$template_file" "$name" "$path"
   fi
@@ -57,7 +63,7 @@ main() {
   [[ ! $selected ]] && exit 1
 
   local selected_name
-  selected_name=$(echo "$selected" | sed "s|^~/||" | tr '.' '_')
+  selected_name=$(echo "${selected//[~\.]/}" | sed 's|^/||')
 
   if ! tmux has-session -t "$selected_name"; then
     new_session "$selected_name" "${selected//\~/$HOME}"
