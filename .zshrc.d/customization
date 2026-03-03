@@ -54,3 +54,4 @@ source <(fzf --zsh)
 # keymaps
 # -----------------------------------------------------
 bindkey -s ^f "tmux-sessions\n"
+# bindkey -s ^f "tmux-sessions --active\n"

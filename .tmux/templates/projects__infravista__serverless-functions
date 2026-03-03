@@ -9,15 +9,15 @@ tmux new-window -d -t "$name" -n 'run' -c "$path"
 
 tmux split-window -h -t "${name}:run" -c "$path"
 tmux split-window -v -t "${name}:run.1" -c "$path"
-tmux split-window -v -t "${name}:run.2" -c "$path"
-tmux split-window -v -t "${name}:run.3" -c "$path"
+# tmux split-window -v -t "${name}:run.2" -c "$path"
+# tmux split-window -v -t "${name}:run.3" -c "$path"
 
 tmux select-layout -t "${name}:run" main-vertical
 
 tmux send-keys -t "${name}:run.0" '' C-m
 tmux send-keys -t "${name}:run.1" '' C-m
-tmux send-keys -t "${name}:run.2" 'pnpm --filter web run dev' C-m
-tmux send-keys -t "${name}:run.3" 'pnpm --filter admin-web run dev' C-m
-tmux send-keys -t "${name}:run.4" 'pnpm run build:watch' C-m
+# tmux send-keys -t "${name}:run.2" '' C-m
+# tmux send-keys -t "${name}:run.3" '' C-m
+tmux send-keys -t "${name}:run.2" 'pnpm run build:watch' C-m
 
 tmux select-window -t "$name:main"

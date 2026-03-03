@@ -16,18 +16,24 @@ print_usage() {
 Tmux sessions
 
 Options:
-  -h, --help                Show this help message and exit."
+  -h, --help                Show this help message and exit.
+  -a, --active              List all active tmux sessions."
+}
+
+has_session() {
+  local name="$1"
+  tmux list-sessions -F "#{session_name}" 2>/dev/null | grep -Fxq "$name"
 }
 
 new_session() {
   local name="$1"
   local path="$2"
 
-  local sanitized_name
-  sanitized_name=$(echo "$name" | sed -E 's/^(~\/|\/)|\.//g' | sed 's/\//__/g')
+  local template_name
+  template_name=$(echo "$path" | sed "s|^$HOME|~|" | sed -E 's/^(~\/|\/)|\.//g' | sed 's/\//__/g')
 
   local template_file
-  template_file="$TMUX_TEMPLATES_PATH/$sanitized_name"
+  template_file="$TMUX_TEMPLATES_PATH/$template_name"
 
   if [[ -f "$template_file" ]]; then
     "$template_file" "$name" "$path"
@@ -47,6 +53,10 @@ main() {
       print_usage
       exit 0
       ;;
+    -a | --active)
+      mapfile -t dirs < <(tmux list-sessions -F "#{session_path}")
+      shift
+      ;;
     *)
       dirs+=("$1")
       shift
@@ -63,9 +73,9 @@ main() {
   [[ ! $selected ]] && exit 1
 
   local selected_name
-  selected_name=$(echo "${selected//[~\.]/}" | sed 's|^/||')
+  selected_name="${selected//[\.]/_}"
 
-  if ! tmux has-session -t "$selected_name"; then
+  if ! has_session "$selected_name"; then
     new_session "$selected_name" "${selected//\~/$HOME}"
   fi
 
