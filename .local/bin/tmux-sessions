@@ -6,6 +6,7 @@ PATHS=(
   "$HOME/.dotfiles"
   "$HOME/.dotfiles/.config/nvim"
   "$HOME/.dotfiles/.tmux/templates"
+  "$WIN_HOME"
 )
 
 TMUX_TEMPLATES_PATH="$HOME/.tmux/templates"

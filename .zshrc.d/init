@@ -6,6 +6,7 @@
 # -----------------------------------------------------
 # Exports
 # -----------------------------------------------------
+export WIN_HOME=$(wslpath -u "$(cmd.exe /c 'echo %USERPROFILE%' 2>/dev/null | tr -d '\r')")
 export EDITOR=nvim
 export ANDROID_HOME=$HOME/android-sdk
 export JAVA_HOME=/usr/lib/jvm/java-25-openjdk
