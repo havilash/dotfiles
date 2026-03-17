@@ -9,6 +9,11 @@ PATHS=(
   "$WIN_HOME"
 )
 
+EXISTING_PATHS=()
+for p in "${PATHS[@]}"; do
+  [[ -d "$p" ]] && EXISTING_PATHS+=("$p")
+done
+
 TMUX_TEMPLATES_PATH="$HOME/.tmux/templates"
 
 print_usage() {
@@ -66,7 +71,7 @@ main() {
   done
 
   if [[ ${#dirs[@]} -eq 0 ]]; then
-    dirs=("${PATHS[@]}")
+    dirs=("${EXISTING_PATHS[@]}")
   fi
 
   local selected
