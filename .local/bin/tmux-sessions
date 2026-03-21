@@ -1,6 +1,7 @@
 #!/bin/bash
 
 PATHS=(
+  "$HOME"
   "$HOME/projects/"*
   "$HOME/projects/infravista/"*
   "$HOME/.dotfiles"
