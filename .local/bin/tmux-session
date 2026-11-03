@@ -23,6 +23,7 @@ fi
 DEFAULT_TMUX_SESSION_PATHS=(
   "$HOME"
   "$HOME/projects/"*
+  "$HOME/projects/infravista/"*
   "$HOME/.dotfiles"
   "$HOME/.dotfiles/.config/nvim"
   "$HOME/.dotfiles/.config/tmux"
