@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+# notify-send compatible phone notifications from WSL, sent over the LAN by KDE Connect for Windows.
+set -euo pipefail
+
+usage() {
+  cat <<'EOF'
+Usage: notify-phone [OPTIONS] SUMMARY [BODY]
+
+Send a notification to your paired phone via KDE Connect (same network only).
+
+Options:
+  -d, --device ID         KDE Connect device ID (default: first reachable paired device)
+  -h, --help              show this help
+
+Environment:
+  KDECONNECT_CLI          path to kdeconnect-cli.exe if it is not found automatically
+
+Other notify-send options (-a, -u, -i, -t, -c, --hint) are accepted and ignored,
+so it can stand in for notify-send.
+EOF
+}
+
+find_kdeconnect_cli() {
+  if [[ -n "${KDECONNECT_CLI:-}" ]]; then
+    echo "$KDECONNECT_CLI"
+    return
+  fi
+  local candidate
+  # The Microsoft Store install is only reachable through its app execution alias.
+  for candidate in /mnt/c/Users/*/AppData/Local/Microsoft/WindowsApps/kdeconnect-cli.exe \
+    /mnt/c/Program\ Files*/KDE\ Connect*/bin/kdeconnect-cli.exe; do
+    [[ -x "$candidate" ]] && { echo "$candidate"; return; }
+  done
+  echo "notify-phone: kdeconnect-cli.exe not found; install KDE Connect on Windows or set KDECONNECT_CLI" >&2
+  exit 1
+}
+
+find_reachable_device_id() {
+  # Windows binaries print CRLF line endings.
+  "$1" --list-available --id-only 2>/dev/null | tr -d '\r' | head -n 1
+}
+
+device_id=""
+
+while (($#)); do
+  case "$1" in
+    -d | --device) device_id="$2"; shift 2 ;;
+    --device=*) device_id="${1#*=}"; shift ;;
+    -h | --help) usage; exit 0 ;;
+    -a | --app-name | -u | --urgency | -i | --icon | -t | --expire-time | -c | --category | --hint) shift 2 ;;
+    --) shift; break ;;
+    -?*) shift ;;
+    *) break ;;
+  esac
+done
+
+if (($# < 1)); then
+  usage >&2
+  exit 1
+fi
+
+message="$1${2:+$'\n'$2}"
+cli="$(find_kdeconnect_cli)"
+device_id="${device_id:-$(find_reachable_device_id "$cli")}"
+
+if [[ -z "$device_id" ]]; then
+  echo "notify-phone: no paired phone reachable; is KDE Connect running on both and on the same network?" >&2
+  exit 1
+fi
+
+"$cli" --device "$device_id" --ping-msg "$message" >/dev/null

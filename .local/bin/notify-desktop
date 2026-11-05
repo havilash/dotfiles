@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+# notify-send compatible Windows toast notifications from WSL, using only built-in Windows APIs.
+set -euo pipefail
+
+usage() {
+  cat <<'EOF'
+Usage: notify-desktop [OPTIONS] SUMMARY [BODY]
+
+Show a Windows toast notification from WSL.
+
+Options:
+  -a, --app-name NAME     attribution line shown under the text
+  -u, --urgency LEVEL     low (silent), normal (default), critical (stays until dismissed)
+  -i, --icon PATH         image shown next to the text (WSL or Windows path)
+  -h, --help              show this help
+
+Other notify-send options (-t, -c, --hint) are accepted and ignored,
+so it can stand in for notify-send.
+EOF
+}
+
+app_name="" urgency="normal" icon=""
+
+while (($#)); do
+  case "$1" in
+    -a | --app-name) app_name="$2"; shift 2 ;;
+    --app-name=*) app_name="${1#*=}"; shift ;;
+    -u | --urgency) urgency="$2"; shift 2 ;;
+    --urgency=*) urgency="${1#*=}"; shift ;;
+    -i | --icon) icon="$2"; shift 2 ;;
+    --icon=*) icon="${1#*=}"; shift ;;
+    -h | --help) usage; exit 0 ;;
+    -t | --expire-time | -c | --category | --hint) shift 2 ;;
+    --) shift; break ;;
+    -?*) shift ;;
+    *) break ;;
+  esac
+done
+
+if (($# < 1)); then
+  usage >&2
+  exit 1
+fi
+
+case "$urgency" in
+  low | normal | critical) ;;
+  *) echo "notify-desktop: invalid urgency '$urgency'" >&2; exit 1 ;;
+esac
+
+if [[ -n "$icon" && -e "$icon" ]]; then
+  icon="$(wslpath -w "$(realpath "$icon")")"
+fi
+
+# Values travel as environment variables via WSLENV, so message text is never parsed as PowerShell code.
+export NOTIFY_SUMMARY="$1" NOTIFY_BODY="${2:-}" NOTIFY_APP="$app_name" NOTIFY_URGENCY="$urgency" NOTIFY_ICON="$icon"
+export WSLENV="${WSLENV:+$WSLENV:}NOTIFY_SUMMARY:NOTIFY_BODY:NOTIFY_APP:NOTIFY_URGENCY:NOTIFY_ICON"
+
+read -r -d '' ps_script <<'PS' || true
+$ErrorActionPreference = 'Stop'
+function Esc([string]$s) { [Security.SecurityElement]::Escape($s) }
+
+$texts = "<text>$(Esc $env:NOTIFY_SUMMARY)</text>"
+if ($env:NOTIFY_BODY) { $texts += "<text>$(Esc $env:NOTIFY_BODY)</text>" }
+if ($env:NOTIFY_APP) { $texts += "<text placement='attribution'>$(Esc $env:NOTIFY_APP)</text>" }
+if ($env:NOTIFY_ICON) { $texts += "<image placement='appLogoOverride' src='$(Esc $env:NOTIFY_ICON)'/>" }
+
+$scenario = if ($env:NOTIFY_URGENCY -eq 'critical') { " scenario='reminder'" } else { '' }
+$audio = if ($env:NOTIFY_URGENCY -eq 'low') { "<audio silent='true'/>" } else { '' }
+# Reminder toasts need a button, otherwise Windows shows them like normal ones.
+$actions = if ($scenario) { "<actions><action content='Dismiss' arguments='dismiss' activationType='system'/></actions>" } else { '' }
+
+$null = [Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime]
+$null = [Windows.Data.Xml.Dom.XmlDocument, Windows.Data.Xml.Dom, ContentType = WindowsRuntime]
+$xml = [Windows.Data.Xml.Dom.XmlDocument]::new()
+$xml.LoadXml("<toast$scenario><visual><binding template='ToastGeneric'>$texts</binding></visual>$audio$actions</toast>")
+
+# Toasts must be attributed to a registered app; PowerShell's AppUserModelID exists on every Windows install.
+$appId = '{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\WindowsPowerShell\v1.0\powershell.exe'
+[Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier($appId).Show(
+  [Windows.UI.Notifications.ToastNotification]::new($xml))
+PS
+
+# -Command - (stdin) silently skips a trailing multi-line statement, so pass the script encoded instead.
+powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass \
+  -EncodedCommand "$(printf '%s' "$ps_script" | iconv -t UTF-16LE | base64 -w0)"

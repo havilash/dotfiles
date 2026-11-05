@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Sends the notification to the desktop and the phone; both accept the same notify-send style arguments.
+status=0
+notify-desktop "$@" || status=1
+notify-phone "$@" || status=1
+exit "$status"
