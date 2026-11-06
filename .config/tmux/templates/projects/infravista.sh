@@ -43,6 +43,6 @@ tmux send-keys -t "${name}:claude" 'claude' C-m
 tmux send-keys -t "${name}:run.1" 'npm run dev' C-m
 tmux send-keys -t "${name}:run.2" 'npm run dev' C-m
 tmux send-keys -t "${name}:run.3" 'npm run build:watch' C-m
-tmux send-keys -t "${name}:run.4" 'until docker info >/dev/null 2>&1; do sleep 2; done; sam local start-api --profile infravista --config-env local --port 3001' C-m
+tmux send-keys -t "${name}:run.4" 'until docker info >/dev/null 2>&1; do sleep 2; done; sam local start-api --profile infravista --config-env local --port 3001 --warm-containers LAZY 2>&1 | pino-pretty' C-m
 
 tmux select-window -t "$name:main"
