@@ -16,7 +16,7 @@ Options:
 
 Commands:
   on                      wake the host and wait until it responds
-  wake                    send a single Wake-on-LAN packet (requires wakeonlan)
+  wake                    send a single Wake-on-LAN packet (requires wakeonlan or wol)
   sleep                   suspend
   off                     power off
   reboot                  reboot
@@ -99,12 +99,18 @@ send_magic_packet() {
     echo "srv: no MAC configured for '$host' (see $CONFIG)" >&2
     exit 1
   fi
-  if ! command -v wakeonlan >/dev/null; then
-    echo "srv: wakeonlan not found; install it (e.g. pacman -S wakeonlan)" >&2
+  broadcast="${broadcast:-255.255.255.255}"
+  port="${port:-9}"
+
+  if command -v wakeonlan >/dev/null; then
+    wakeonlan -i "$broadcast" -p "$port" "$mac" >/dev/null
+  elif command -v wol >/dev/null; then
+    # Termux: pkg install wol
+    wol -i "$broadcast" -p "$port" "$mac" >/dev/null
+  else
+    echo "srv: no Wake-on-LAN tool found; install wakeonlan (pacman/apt) or wol (Termux: pkg install wol)" >&2
     exit 1
   fi
-
-  wakeonlan -i "${broadcast:-255.255.255.255}" -p "${port:-9}" "$mac" >/dev/null
 }
 
 cmd_wake() {
