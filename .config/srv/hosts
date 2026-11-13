@@ -1,0 +1,16 @@
+# Servers for srv. Connection details can be set here, or come from ~/.ssh/config.
+#
+# Host <name> [<name> ...]     name used with srv
+#     HostName <ip|dns>        optional, overrides ssh HostName
+#     User <user>              optional, overrides ssh User
+#     SSHHost <alias>          optional, ~/.ssh/config host to connect to, default: Host name
+#     MAC <mac>                required for srv on / wake
+#     Broadcast <ip>           optional, default 255.255.255.255
+#     Port <port>              optional, Wake-on-LAN port, default 9
+#     Address <ip>             optional, address to ping, default: resolved ssh HostName
+
+Host home-srv01
+    HostName 192.168.1.120
+    User havilash
+    MAC 50:2f:9b:95:55:ab
+    Broadcast 192.168.1.255

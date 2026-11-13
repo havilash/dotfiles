@@ -1,0 +1,177 @@
+#!/usr/bin/env bash
+# Control servers defined in ~/.config/srv/hosts (connection details there or from ~/.ssh/config).
+set -euo pipefail
+
+CONFIG="${SRV_CONFIG:-$HOME/.config/srv/hosts}"
+
+usage() {
+  cat <<EOF
+Usage: srv [OPTIONS] HOST COMMAND
+
+Control a server over ssh and Wake-on-LAN.
+
+Options:
+  -l, --list              list configured hosts
+  -h, --help              show this help
+
+Commands:
+  on                      wake the host and wait until it responds
+  wake                    send a single Wake-on-LAN packet (requires wakeonlan or wol)
+  sleep                   suspend
+  off                     power off
+  reboot                  reboot
+  status                  show whether the host is up
+  stay                    disable auto-sleep (creates ~/.nosleep on the host)
+  unstay                  enable auto-sleep
+
+Hosts are defined in $CONFIG:
+  Host home-srv01
+      HostName 192.168.1.120    (optional, default: from ~/.ssh/config)
+      User havilash             (optional, default: from ~/.ssh/config)
+      SSHHost home-srv01        (optional, ~/.ssh/config host to use, default: Host name)
+      MAC 50:2f:9b:95:55:ab     (required for on / wake)
+      Broadcast 192.168.1.255   (optional, default 255.255.255.255)
+      Port 9                    (optional, Wake-on-LAN port, default 9)
+      Address 192.168.1.120     (optional, address to ping, default: ssh HostName)
+EOF
+}
+
+list_hosts() {
+  awk 'tolower($1) == "host" { for (i = 2; i <= NF; i++) print $i }' "$CONFIG"
+}
+
+has_host() {
+  list_hosts | grep -qxF "$1"
+}
+
+# Prints the value of KEY for HOST, or nothing if it is not set.
+get_option() {
+  awk -v host="$1" -v key="$2" '
+    tolower($1) == "host" { match_ = 0; for (i = 2; i <= NF; i++) if ($i == host) match_ = 1; next }
+    match_ && tolower($1) == tolower(key) { print $2; exit }
+  ' "$CONFIG"
+}
+
+# Usage: srv_ssh HOST [SSH_FLAG ...] -- [COMMAND ...]
+# Connects to SSHHost (default: HOST), with HostName and User from the config overriding ~/.ssh/config.
+srv_ssh() {
+  local host="$1" target hostname user
+  shift
+  local -a flags=()
+  while (($#)) && [[ "$1" != "--" ]]; do
+    flags+=("$1")
+    shift
+  done
+  (($#)) && shift
+
+  target="$(get_option "$host" SSHHost)"
+  hostname="$(get_option "$host" HostName)"
+  user="$(get_option "$host" User)"
+  [[ -n "$hostname" ]] && flags+=(-o "HostName=$hostname")
+  [[ -n "$user" ]] && flags+=(-l "$user")
+
+  ssh "${flags[@]}" "${target:-$host}" "$@"
+}
+
+address() {
+  local addr
+  addr="$(get_option "$1" Address)"
+  [[ -n "$addr" ]] || addr="$(srv_ssh "$1" -G -- 2>/dev/null | awk '$1 == "hostname" { print $2 }')"
+  echo "$addr"
+}
+
+is_up() {
+  ping -c1 -W1 "$(address "$1")" >/dev/null 2>&1
+}
+
+remote_sudo() {
+  # -t so sudo can prompt for a password if the host has no NOPASSWD rule.
+  srv_ssh "$1" -t -- sudo "${@:2}"
+}
+
+send_magic_packet() {
+  local host="$1" mac broadcast port
+  mac="$(get_option "$host" MAC)"
+  broadcast="$(get_option "$host" Broadcast)"
+  port="$(get_option "$host" Port)"
+
+  if [[ -z "$mac" ]]; then
+    echo "srv: no MAC configured for '$host' (see $CONFIG)" >&2
+    exit 1
+  fi
+  broadcast="${broadcast:-255.255.255.255}"
+  port="${port:-9}"
+
+  if command -v wakeonlan >/dev/null; then
+    wakeonlan -i "$broadcast" -p "$port" "$mac" >/dev/null
+  elif command -v wol >/dev/null; then
+    # Termux: pkg install wol
+    wol -i "$broadcast" -p "$port" "$mac" >/dev/null
+  else
+    echo "srv: no Wake-on-LAN tool found; install wakeonlan (pacman/apt) or wol (Termux: pkg install wol)" >&2
+    exit 1
+  fi
+}
+
+cmd_wake() {
+  send_magic_packet "$1"
+  echo "Sent magic packet to $1"
+}
+
+cmd_on() {
+  local host="$1" i
+  printf 'Waking %s' "$host"
+  for i in $(seq 1 30); do
+    send_magic_packet "$host"
+    is_up "$host" && { echo " - up"; return 0; }
+    printf '.'
+    sleep 2
+  done
+  echo " - no response (is it fully off? Wi-Fi can only wake from sleep)"
+  return 1
+}
+
+cmd_status() {
+  if is_up "$1"; then
+    echo "$1: up"
+  else
+    echo "$1: asleep/off"
+  fi
+}
+
+main() {
+  case "${1:-}" in
+    -l | --list) list_hosts; exit 0 ;;
+    -h | --help) usage; exit 0 ;;
+  esac
+
+  if (($# != 2)); then
+    usage >&2
+    exit 1
+  fi
+
+  if [[ ! -f "$CONFIG" ]]; then
+    echo "srv: config not found: $CONFIG" >&2
+    exit 1
+  fi
+
+  local host="$1" command="$2"
+  if ! has_host "$host"; then
+    echo "srv: unknown host '$host' (see $CONFIG)" >&2
+    exit 1
+  fi
+
+  case "$command" in
+    on) cmd_on "$host" ;;
+    wake) cmd_wake "$host" ;;
+    sleep) remote_sudo "$host" systemctl suspend ;;
+    off) remote_sudo "$host" systemctl poweroff ;;
+    reboot) remote_sudo "$host" systemctl reboot ;;
+    status) cmd_status "$host" ;;
+    stay) srv_ssh "$host" -- touch .nosleep && echo "auto-sleep disabled" ;;
+    unstay) srv_ssh "$host" -- rm -f .nosleep && echo "auto-sleep enabled" ;;
+    *) echo "srv: unknown command '$command'" >&2; usage >&2; exit 1 ;;
+  esac
+}
+
+main "$@"
