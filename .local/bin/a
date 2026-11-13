@@ -1,5 +1,5 @@
 main() {
-  GEMINI_CLI_TRUST_WORKSPACE=false gemini --skip-trust -p "$*"
+  claude --model haiku --effort low -p "$*" < /dev/null
 }
 
 main "$@"
